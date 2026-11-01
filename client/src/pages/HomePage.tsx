@@ -16,9 +16,9 @@ export function HomePage() {
   const [showOptions, setShowOptions] = useState(false);
   const [activeAnalysisId, setActiveAnalysisId] = useState<string | null>(null);
   const [options, setOptions] = useState({
-    maxComments: 300 as 100 | 300 | 500 | 1000,
+    maxComments: 0, // 0 = All comments in the video
     order: 'relevance' as 'relevance' | 'time',
-    includeReplies: false,
+    includeReplies: true,
     provider: 'gemini' as 'gemini' | 'openai' | 'local',
   });
 
@@ -124,17 +124,21 @@ export function HomePage() {
           {showOptions && (
             <div id="options-panel" className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
-                <label htmlFor="max-comments" className="block text-xs text-slate-400 mb-1">Max comments</label>
+                <label htmlFor="max-comments" className="block text-xs text-slate-400 mb-1">Comments to analyze</label>
                 <select
                   id="max-comments"
                   value={options.maxComments}
-                  onChange={(e) => setOptions({ ...options, maxComments: Number(e.target.value) as 100|300|500|1000 })}
+                  onChange={(e) => setOptions({ ...options, maxComments: Number(e.target.value) })}
                   className="input-base text-xs py-2"
                 >
-                  <option value={100}>100</option>
-                  <option value={300}>300</option>
-                  <option value={500}>500</option>
-                  <option value={1000}>1000</option>
+                  <option value={0}>⚡ All comments (entire video)</option>
+                  <option value={100}>100 comments (quick test)</option>
+                  <option value={300}>300 comments</option>
+                  <option value={500}>500 comments</option>
+                  <option value={1000}>1,000 comments</option>
+                  <option value={5000}>5,000 comments</option>
+                  <option value={10000}>10,000 comments</option>
+                  <option value={50000}>50,000 comments</option>
                 </select>
               </div>
               <div>

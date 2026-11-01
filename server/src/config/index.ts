@@ -33,7 +33,7 @@ const envSchema = z.object({
   // Pipeline
   BATCH_SIZE: z.string().default('25').transform(Number),
   AI_CONCURRENCY: z.string().default('3').transform(Number),
-  MAX_COMMENTS_LIMIT: z.string().default('1000').transform(Number),
+  MAX_COMMENTS_LIMIT: z.string().default('100000').transform(Number),
 
   // Logging
   LOG_LEVEL: z

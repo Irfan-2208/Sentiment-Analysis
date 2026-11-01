@@ -31,17 +31,37 @@ export function getDemoVideoMeta() {
 
 /**
  * Returns up to `max` demo comments as RawComment objects.
- * Shuffles slightly to simulate variety on each analysis.
+ * If max is 0 (all), returns all available demo comments.
+ * If max is larger than available fixtures, cycles with unique IDs to test high-volume analysis.
  */
-export function getDemoComments(max = 300): RawComment[] {
+export function getDemoComments(max = 0): RawComment[] {
   const entries = demoCommentsRaw as DemoCommentEntry[];
-  const shuffled = [...entries].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, max).map((entry) => ({
-    externalId: entry.id,
-    text: entry.text,
-    likeCount: entry.likeCount,
-    publishedAt: entry.publishedAt,
-    isReply: entry.isReply,
-    authorName: 'Demo User',
-  }));
+  const target = max <= 0 ? entries.length : max;
+
+  if (target <= entries.length) {
+    const shuffled = [...entries].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, target).map((entry, idx) => ({
+      externalId: `${entry.id}-${idx}`,
+      text: entry.text,
+      likeCount: entry.likeCount,
+      publishedAt: entry.publishedAt,
+      isReply: entry.isReply,
+      authorName: 'Demo User',
+    }));
+  }
+
+  // Synthesize up to target (e.g. 1000 or 10000) for testing large volume in demo mode
+  const result: RawComment[] = [];
+  for (let i = 0; i < target; i++) {
+    const template = entries[i % entries.length];
+    result.push({
+      externalId: `demo-${i}-${template.id}`,
+      text: template.text,
+      likeCount: template.likeCount,
+      publishedAt: template.publishedAt,
+      isReply: template.isReply,
+      authorName: `Demo User ${i + 1}`,
+    });
+  }
+  return result;
 }

@@ -108,21 +108,16 @@ export type VideoMeta = z.infer<typeof VideoMetaSchema>;
 export const AnalysisOrderSchema = z.enum(['relevance', 'time']);
 export type AnalysisOrder = z.infer<typeof AnalysisOrderSchema>;
 
-export const MaxCommentsSchema = z.union([
-  z.literal(100),
-  z.literal(300),
-  z.literal(500),
-  z.literal(1000),
-]);
+export const MaxCommentsSchema = z.number().int().min(0).max(100000);
 export type MaxComments = z.infer<typeof MaxCommentsSchema>;
 
 export const AIProviderSchema = z.enum(['gemini', 'openai', 'local']);
 export type AIProvider = z.infer<typeof AIProviderSchema>;
 
 export const AnalysisOptionsSchema = z.object({
-  maxComments: MaxCommentsSchema.default(300),
+  maxComments: MaxCommentsSchema.default(0),
   order: AnalysisOrderSchema.default('relevance'),
-  includeReplies: z.boolean().default(false),
+  includeReplies: z.boolean().default(true),
   provider: AIProviderSchema.default('gemini'),
   model: z.string().optional(),
   promptVersion: z.string().optional(),

@@ -32,9 +32,11 @@ export async function fetchComments(
   const { maxComments, order, includeReplies, onProgress } = options;
   const comments: RawComment[] = [];
   let pageToken: string | undefined;
-  const cap = Math.min(maxComments, config.MAX_COMMENTS_LIMIT);
+  const maxLimit = config.MAX_COMMENTS_LIMIT > 0 ? config.MAX_COMMENTS_LIMIT : 100000;
+  // If maxComments <= 0, user wants all comments on the video (capped only by system ceiling)
+  const cap = maxComments > 0 ? Math.min(maxComments, maxLimit) : maxLimit;
 
-  logger.info({ videoId, maxComments: cap, order, includeReplies }, 'Starting comment fetch');
+  logger.info({ videoId, maxComments: cap, isUnlimited: maxComments <= 0, order, includeReplies }, 'Starting comment fetch');
 
   do {
     let response;
@@ -83,19 +85,59 @@ export async function fetchComments(
       });
 
       // Include replies if requested
-      if (includeReplies && thread.replies?.comments) {
-        for (const reply of thread.replies.comments) {
-          if (comments.length >= cap) break;
-          const rs = reply.snippet;
-          if (!rs) continue;
-          comments.push({
-            externalId: reply.id ?? '',
-            text: rs.textDisplay ?? '',
-            likeCount: Number(rs.likeCount ?? 0),
-            publishedAt: rs.publishedAt ?? new Date().toISOString(),
-            isReply: true,
-            authorName: rs.authorDisplayName ?? 'Anonymous',
-          });
+      if (includeReplies) {
+        if (thread.replies?.comments) {
+          for (const reply of thread.replies.comments) {
+            if (comments.length >= cap) break;
+            const rs = reply.snippet;
+            if (!rs) continue;
+            comments.push({
+              externalId: reply.id ?? '',
+              text: rs.textDisplay ?? '',
+              likeCount: Number(rs.likeCount ?? 0),
+              publishedAt: rs.publishedAt ?? new Date().toISOString(),
+              isReply: true,
+              authorName: rs.authorDisplayName ?? 'Anonymous',
+            });
+          }
+        }
+
+        // If thread has additional replies beyond the initial inline comments,
+        // fetch remaining replies using youtube.comments.list
+        const totalReplies = Number(thread.snippet?.totalReplyCount ?? 0);
+        const inlineCount = thread.replies?.comments?.length ?? 0;
+        if (totalReplies > inlineCount && comments.length < cap) {
+          try {
+            let replyPageToken: string | undefined;
+            do {
+              const replyRes = await youtube.comments.list({
+                part: ['snippet'],
+                parentId: thread.id ?? '',
+                maxResults: 100,
+                textFormat: 'plainText',
+                ...(replyPageToken ? { pageToken: replyPageToken } : {}),
+              });
+              const replyItems = replyRes.data.items ?? [];
+              for (const rItem of replyItems) {
+                if (comments.length >= cap) break;
+                // Avoid duplicating the inline comments
+                if (thread.replies?.comments?.some((c) => c.id === rItem.id)) continue;
+                const rs = rItem.snippet;
+                if (!rs) continue;
+                comments.push({
+                  externalId: rItem.id ?? '',
+                  text: rs.textDisplay ?? '',
+                  likeCount: Number(rs.likeCount ?? 0),
+                  publishedAt: rs.publishedAt ?? new Date().toISOString(),
+                  isReply: true,
+                  authorName: rs.authorDisplayName ?? 'Anonymous',
+                });
+              }
+              replyPageToken = replyRes.data.nextPageToken ?? undefined;
+            } while (replyPageToken && comments.length < cap);
+          } catch {
+            // Non-fatal if fetching extra replies encounters quota or errors
+          }
         }
       }
     }

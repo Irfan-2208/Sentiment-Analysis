@@ -75,7 +75,8 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
 
     // ── Stage: fetching ───────────────────────────────────
     await updateAnalysis({ stage: 'fetching', 'progress.stage': 'fetching' });
-    emit('progress', { stage: 'fetching', fetched: 0, analyzed: 0, total: options.maxComments });
+    const targetFetchTotal = options.maxComments > 0 ? options.maxComments : (videoMeta.commentCount || 0);
+    emit('progress', { stage: 'fetching', fetched: 0, analyzed: 0, total: targetFetchTotal });
 
     let rawComments;
     if (isDemo) {
@@ -86,7 +87,12 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
         order: options.order,
         includeReplies: options.includeReplies,
         onProgress: (fetched) => {
-          emit('progress', { stage: 'fetching', fetched, analyzed: 0, total: options.maxComments });
+          emit('progress', {
+            stage: 'fetching',
+            fetched,
+            analyzed: 0,
+            total: options.maxComments > 0 ? options.maxComments : Math.max(fetched, videoMeta.commentCount || 0),
+          });
         },
       });
     }
@@ -170,12 +176,13 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
       hash: c.hash,
     }));
 
+    const dynamicBatchSize = nonSpam.length > 500 ? Math.max(config.BATCH_SIZE, 50) : config.BATCH_SIZE;
     const batchResults = await dispatchBatches(
       commentsForBatch,
       provider,
       options.promptVersion ?? config.PROMPT_VERSION,
       {
-        batchSize: config.BATCH_SIZE,
+        batchSize: dynamicBatchSize,
         concurrency: config.AI_CONCURRENCY,
         onProgress: async (analyzed, total) => {
           if (jobToken.cancelled) return;
