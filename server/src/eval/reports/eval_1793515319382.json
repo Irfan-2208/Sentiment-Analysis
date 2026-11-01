@@ -1,0 +1,205 @@
+{
+  "timestamp": "2026-11-01T06:41:59.381Z",
+  "analyzer": "local-ensemble (100% fallback)",
+  "goldsetSize": 125,
+  "overallAccuracy": 0.872,
+  "macroF1": 0.8644376899696048,
+  "target_macroF1": 0.8,
+  "passed": true,
+  "fallbackCount": 125,
+  "fallbackFraction": 1,
+  "classMetrics": {
+    "positive": {
+      "precision": 0.8478260869565217,
+      "recall": 0.8666666666666667,
+      "f1": 0.8571428571428571,
+      "support": 45
+    },
+    "negative": {
+      "precision": 0.9565217391304348,
+      "recall": 0.9166666666666666,
+      "f1": 0.9361702127659574,
+      "support": 48
+    },
+    "neutral": {
+      "precision": 0.7878787878787878,
+      "recall": 0.8125,
+      "f1": 0.8,
+      "support": 32
+    }
+  },
+  "confusionMatrix": {
+    "positive": {
+      "positive": 39,
+      "negative": 1,
+      "neutral": 5
+    },
+    "negative": {
+      "positive": 2,
+      "negative": 44,
+      "neutral": 2
+    },
+    "neutral": {
+      "positive": 5,
+      "negative": 1,
+      "neutral": 26
+    }
+  },
+  "sarcasticSubset": {
+    "n": 21,
+    "accuracy": 1
+  },
+  "hinglishSubset": {
+    "n": 43,
+    "accuracy": 0.813953488372093
+  },
+  "errors": [
+    {
+      "id": "gs024",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Thoda thoda helpful tha but overall nahi impressed hua",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs027",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Camera quality thoda improve karo, baaki sab theek hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs030",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "Bahut hi motivational video! Aage badhne ka mann kar gaya",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs033",
+      "actual": "negative",
+      "predicted": "positive",
+      "text": "I can't say this was helpful. It wasn't.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs035",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "This is not bad, not great, just okay.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs036",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Not the worst I've seen but definitely not good.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs040",
+      "actual": "neutral",
+      "predicted": "negative",
+      "text": "First half was great, second half was a complete disaster.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs041",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "The price is way too high but the quality is undeniable.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs072",
+      "actual": "negative",
+      "predicted": "positive",
+      "text": "Price high hai lekin worth it nahi lagta",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs075",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "Ye topic pe itna detail! Bohot research ki hogi",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs078",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "Mujhe bohot help mili! Confidence aa gaya",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs090",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Has some good points and some weak points.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs107",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "Arey yaar, itna sab free mein! Unbelievable!",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs109",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Yaar quality pe dhyan do, baki sab sahi hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs111",
+      "actual": "positive",
+      "predicted": "negative",
+      "text": "😭😭 Why did I find this so late?!",
+      "tags": [
+        "emoji_only",
+        "question"
+      ]
+    },
+    {
+      "id": "gs119",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "This content changed my perspective completely. Eye-opening!",
+      "tags": [
+        "plain_positive"
+      ]
+    }
+  ]
+}

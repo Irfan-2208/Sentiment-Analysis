@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-10-31T05:18:04.732Z",
+  "analyzer": "gemini-3.6-flash",
+  "goldsetSize": 125,
+  "overallAccuracy": 0.968,
+  "macroF1": 0.9637286798777481,
+  "target_macroF1": 0.8,
+  "passed": true,
+  "classMetrics": {
+    "positive": {
+      "precision": 0.9574468085106383,
+      "recall": 1,
+      "f1": 0.9782608695652174,
+      "support": 45
+    },
+    "negative": {
+      "precision": 0.96,
+      "recall": 1,
+      "f1": 0.9795918367346939,
+      "support": 48
+    },
+    "neutral": {
+      "precision": 1,
+      "recall": 0.875,
+      "f1": 0.9333333333333333,
+      "support": 32
+    }
+  },
+  "confusionMatrix": {
+    "positive": {
+      "positive": 45,
+      "negative": 0,
+      "neutral": 0
+    },
+    "negative": {
+      "positive": 0,
+      "negative": 48,
+      "neutral": 0
+    },
+    "neutral": {
+      "positive": 2,
+      "negative": 2,
+      "neutral": 28
+    }
+  },
+  "sarcasticSubset": {
+    "n": 21,
+    "accuracy": 1
+  },
+  "hinglishSubset": {
+    "n": 43,
+    "accuracy": 0.9767441860465116
+  },
+  "errors": [
+    {
+      "id": "gs019",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Bhai price thoda zyada hai lekin quality bhi top hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs040",
+      "actual": "neutral",
+      "predicted": "negative",
+      "text": "First half was great, second half was a complete disaster.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs041",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "The price is way too high but the quality is undeniable.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs050",
+      "actual": "neutral",
+      "predicted": "negative",
+      "text": "meh",
+      "tags": [
+        "very_short"
+      ]
+    }
+  ]
+}

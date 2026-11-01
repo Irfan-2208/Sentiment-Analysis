@@ -1,0 +1,433 @@
+{
+  "timestamp": "2026-10-31T05:07:59.322Z",
+  "analyzer": "gemini-2.0-flash",
+  "goldsetSize": 125,
+  "overallAccuracy": 0.672,
+  "macroF1": 0.659116809116809,
+  "target_macroF1": 0.8,
+  "passed": false,
+  "classMetrics": {
+    "positive": {
+      "precision": 0.7272727272727273,
+      "recall": 0.8888888888888888,
+      "f1": 0.7999999999999999,
+      "support": 45
+    },
+    "negative": {
+      "precision": 0.9583333333333334,
+      "recall": 0.4791666666666667,
+      "f1": 0.638888888888889,
+      "support": 48
+    },
+    "neutral": {
+      "precision": 0.45652173913043476,
+      "recall": 0.65625,
+      "f1": 0.5384615384615383,
+      "support": 32
+    }
+  },
+  "confusionMatrix": {
+    "positive": {
+      "positive": 40,
+      "negative": 1,
+      "neutral": 4
+    },
+    "negative": {
+      "positive": 4,
+      "negative": 23,
+      "neutral": 21
+    },
+    "neutral": {
+      "positive": 11,
+      "negative": 0,
+      "neutral": 21
+    }
+  },
+  "sarcasticSubset": {
+    "n": 21,
+    "accuracy": 0.42857142857142855
+  },
+  "hinglishSubset": {
+    "n": 43,
+    "accuracy": 0.6976744186046512
+  },
+  "errors": [
+    {
+      "id": "gs006",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Yeah right, 'best tutorial ever'. Took me 3 hours to fix the errors they skipped.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs007",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Oh wow SO informative. I already knew all this from a 5-minute Google search.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs009",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Oh absolutely, the 'quality' production. Filmed in a closet with bad lighting 🙄",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs015",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Ekdum bekaar video. Kuch kaam ka nahi.",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs019",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Bhai price thoda zyada hai lekin quality bhi top hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs020",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Yaar bahut slow explain karte ho, jaldi karo",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs024",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Thoda thoda helpful tha but overall nahi impressed hua",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs027",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Camera quality thoda improve karo, baaki sab theek hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs029",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Content achha hai but audio bahut kharab hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs031",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Not bad at all! Could be much better though.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs033",
+      "actual": "negative",
+      "predicted": "positive",
+      "text": "I can't say this was helpful. It wasn't.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs034",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Not worth the money at all.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs036",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Not the worst I've seen but definitely not good.",
+      "tags": [
+        "negation"
+      ]
+    },
+    {
+      "id": "gs037",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Great audio but poor video quality.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs039",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Camera quality is excellent but the information is shallow.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs040",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "First half was great, second half was a complete disaster.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs041",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "The price is way too high but the quality is undeniable.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs057",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Oh absolutely stunning! That's why I fell asleep halfway through 🙄",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs058",
+      "actual": "negative",
+      "predicted": "positive",
+      "text": "Sure 'best content'. If you consider recycled 5-year-old information 'best'.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs060",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Yeah right, 'free information' that nobody wants anyway.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs061",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "I came here with low expectations and somehow you went below them.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs062",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Oh yes, 'amazing production value'. Is that why the lighting looks like a horror movie?",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs067",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Yaar content toh achha hai but subtitles chahiye",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs072",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Price high hai lekin worth it nahi lagta",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs076",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "Yaar ek dum seedha point pe, no waffle",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs077",
+      "actual": "negative",
+      "predicted": "positive",
+      "text": "Bahut hi poor quality video. Skip karo",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs081",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "The audio quality is terrible. Cannot hear anything.",
+      "tags": [
+        "plain_negative",
+        "aspect"
+      ]
+    },
+    {
+      "id": "gs084",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "The price is a complete ripoff for what you get.",
+      "tags": [
+        "plain_negative",
+        "aspect"
+      ]
+    },
+    {
+      "id": "gs087",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Disliked and unsubscribed. Never coming back.",
+      "tags": [
+        "plain_negative"
+      ]
+    },
+    {
+      "id": "gs090",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Has some good points and some weak points.",
+      "tags": [
+        "mixed_aspect"
+      ]
+    },
+    {
+      "id": "gs093",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "This is pure misinformation. Please stop.",
+      "tags": [
+        "plain_negative"
+      ]
+    },
+    {
+      "id": "gs102",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Yeah this 'revolutionary' idea was revolutionary... in 1990.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs103",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "What a 'detailed' tutorial — 2 minutes of actual content in 30 minutes.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs105",
+      "actual": "negative",
+      "predicted": "positive",
+      "text": "So helpful that I had to uninstall everything and start from scratch.",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs107",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "Arey yaar, itna sab free mein! Unbelievable!",
+      "tags": [
+        "hinglish"
+      ]
+    },
+    {
+      "id": "gs109",
+      "actual": "neutral",
+      "predicted": "positive",
+      "text": "Yaar quality pe dhyan do, baki sab sahi hai",
+      "tags": [
+        "hinglish",
+        "mixed"
+      ]
+    },
+    {
+      "id": "gs111",
+      "actual": "positive",
+      "predicted": "negative",
+      "text": "😭😭 Why did I find this so late?!",
+      "tags": [
+        "emoji_only",
+        "question"
+      ]
+    },
+    {
+      "id": "gs112",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "🤯🤯🤯 Mind blown!",
+      "tags": [
+        "emoji_only"
+      ]
+    },
+    {
+      "id": "gs119",
+      "actual": "positive",
+      "predicted": "neutral",
+      "text": "This content changed my perspective completely. Eye-opening!",
+      "tags": [
+        "plain_positive"
+      ]
+    },
+    {
+      "id": "gs122",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Such 'original' content. Never seen anyone else say this exact thing...",
+      "tags": [
+        "sarcasm"
+      ]
+    },
+    {
+      "id": "gs124",
+      "actual": "negative",
+      "predicted": "neutral",
+      "text": "Yaar kuch kaam ka nahi hai isme. Skip karo",
+      "tags": [
+        "hinglish"
+      ]
+    }
+  ]
+}
