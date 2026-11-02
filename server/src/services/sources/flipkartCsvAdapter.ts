@@ -159,6 +159,41 @@ export function parseRating(raw: string | undefined): number | undefined {
   return undefined;
 }
 
+/**
+ * Fetches OpenGraph metadata (title, image) from a Flipkart product URL if reachable.
+ * Times out quickly (3s) so it never hangs the pipeline.
+ */
+async function fetchFlipkartOpenGraphMeta(url: string): Promise<{ title?: string; thumbnailUrl?: string } | null> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+    });
+    clearTimeout(timeout);
+    if (!res.ok) return null;
+    const html = await res.text();
+    const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i)?.[1];
+    const pageTitle = html
+      .match(/<title>([^<]+)<\/title>/i)?.[1]
+      ?.replace(/\s*\|.*$/i, '')
+      ?.replace(/:\s*Buy.*$/i, '')
+      ?.trim();
+    const ogImage = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i)?.[1];
+    return {
+      title: ogTitle || pageTitle,
+      thumbnailUrl: ogImage,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export class FlipkartCsvAdapter implements SourceAdapter<SourceInput> {
   readonly id = 'flipkart' as const;
 
@@ -166,9 +201,16 @@ export class FlipkartCsvAdapter implements SourceAdapter<SourceInput> {
     if (!input.csvContent && !input.pastedText && (!input.rawReviews || input.rawReviews.length === 0) && !input.url) {
       throw new AppError(
         'INVALID_INPUT',
-        'Please provide a Flipkart CSV/JSON file, pasted review text, or product URL',
+        'Please enter a Flipkart product link',
         400
       );
+    }
+
+    if (input.url) {
+      const parsed = parseFlipkartUrl(input.url);
+      if (!parsed.isValid) {
+        throw new AppError('INVALID_URL', 'Please enter a valid Flipkart product URL', 400);
+      }
     }
 
     if (input.csvContent) {
@@ -197,7 +239,21 @@ export class FlipkartCsvAdapter implements SourceAdapter<SourceInput> {
   async fetchMeta(input: SourceInput): Promise<ProductMeta> {
     const parsedUrl = input.url ? parseFlipkartUrl(input.url) : { isValid: false, productId: '' };
     const productId = input.productMeta?.productId || parsedUrl.productId || `fk-prod-${Date.now().toString(36)}`;
-    const title = input.productMeta?.title || parsedUrl.slugTitle || 'Flipkart Product Analysis';
+
+    let scrapedMeta: { title?: string; thumbnailUrl?: string } | null = null;
+    if (input.url) {
+      scrapedMeta = await fetchFlipkartOpenGraphMeta(input.url);
+    }
+
+    const title =
+      scrapedMeta?.title ||
+      input.productMeta?.title ||
+      parsedUrl.slugTitle ||
+      'Flipkart Product Analysis';
+
+    const thumbnailUrl =
+      scrapedMeta?.thumbnailUrl ||
+      input.productMeta?.thumbnailUrl;
 
     return {
       productId,
@@ -206,10 +262,10 @@ export class FlipkartCsvAdapter implements SourceAdapter<SourceInput> {
       rating: input.productMeta?.rating,
       ratingCount: input.productMeta?.ratingCount,
       reviewCount: input.productMeta?.reviewCount,
-      thumbnailUrl: input.productMeta?.thumbnailUrl,
+      thumbnailUrl,
       productUrl: input.url,
       brand: input.productMeta?.brand,
-      source: input.rawReviews ? 'paste' : 'csv',
+      source: input.rawReviews ? 'paste' : input.csvContent ? 'csv' : 'demo',
     };
   }
 
