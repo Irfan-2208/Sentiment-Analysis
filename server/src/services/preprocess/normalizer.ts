@@ -50,6 +50,8 @@ export interface ProcessedComment {
   publishedAt: string;
   isReply: boolean;
   authorName: string;
+  rating?: number;
+  reviewTitle?: string;
 }
 
 export function preprocessComments(
@@ -60,6 +62,8 @@ export function preprocessComments(
     publishedAt: string;
     isReply: boolean;
     authorName: string;
+    rating?: number;
+    reviewTitle?: string;
   }>
 ): ProcessedComment[] {
   return rawComments.map((raw) => {
@@ -73,6 +77,8 @@ export function preprocessComments(
       publishedAt: raw.publishedAt,
       isReply: raw.isReply,
       authorName: raw.authorName,
+      rating: raw.rating,
+      reviewTitle: raw.reviewTitle,
     };
   });
 }

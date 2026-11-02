@@ -14,7 +14,13 @@ export type ErrorCode =
   | 'ANALYSIS_ALREADY_RUNNING'
   | 'ANALYSIS_CANCELLED'
   | 'RATE_LIMIT_EXCEEDED'
-  | 'SSRF_BLOCKED';
+  | 'SSRF_BLOCKED'
+  | 'INVALID_INPUT'
+  | 'INVALID_URL'
+  | 'FILE_TOO_LARGE'
+  | 'PROVIDER_NOT_CONFIGURED'
+  | 'PROVIDER_REQUEST_FAILED'
+  | 'PROVIDER_DATA_INVALID';
 
 export class AppError extends Error {
   constructor(
@@ -90,4 +96,10 @@ export const friendlyMessages: Record<ErrorCode, string> = {
   ANALYSIS_CANCELLED: 'The analysis was cancelled.',
   RATE_LIMIT_EXCEEDED: 'Too many requests. Please slow down.',
   SSRF_BLOCKED: 'Invalid request: only YouTube video IDs are accepted.',
+  INVALID_INPUT: 'The input provided is invalid. Please check your data and try again.',
+  INVALID_URL: 'The provided URL is invalid or not supported.',
+  FILE_TOO_LARGE: 'The uploaded file exceeds the 5 MB or 5,000 row limit.',
+  PROVIDER_NOT_CONFIGURED: 'The requested external provider is not configured or disabled.',
+  PROVIDER_REQUEST_FAILED: 'External provider request failed. Please verify credentials and connectivity.',
+  PROVIDER_DATA_INVALID: 'External provider returned invalid or unparseable review data.',
 };

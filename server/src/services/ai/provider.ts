@@ -3,6 +3,8 @@ import type { CommentAnalysis, Sentiment, Emotion, Language } from '@social-puls
 export interface BatchItem {
   id: string; // stable short ID e.g. "c001"
   text: string; // normalized text
+  platform?: 'youtube' | 'flipkart';
+  rating?: number;
 }
 
 export interface BatchResult {

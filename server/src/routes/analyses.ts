@@ -1,9 +1,12 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import mongoose from 'mongoose';
+import multer from 'multer';
 import { Analysis } from '../models/Analysis.js';
 import { Comment } from '../models/Comment.js';
 import { extractVideoId } from '../services/youtube/urlParser.js';
+import { parseFlipkartUrl } from '../services/sources/flipkartUrlParser.js';
+import type { SourceInput } from '../services/sources/types.js';
 import { runAnalysisJob, cancelJob, isJobRunning } from '../queue/jobRunner.js';
 import { sseEmitter } from '../queue/sseEmitter.js';
 import { validate } from '../middleware/validate.js';
@@ -17,31 +20,118 @@ import {
   ListCommentsQuerySchema,
 } from '@social-pulse/shared';
 
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
+});
+
 export const analysesRouter = Router();
+
+// Middleware to preprocess multipart/form-data before Zod validation
+function multipartJsonPreprocessor(req: Request, _res: Response, next: NextFunction) {
+  if (req.body) {
+    if (typeof req.body.options === 'string') {
+      try {
+        req.body.options = JSON.parse(req.body.options);
+      } catch {
+        // Leave as is
+      }
+    }
+    if (typeof req.body.productMeta === 'string') {
+      try {
+        req.body.productMeta = JSON.parse(req.body.productMeta);
+      } catch {
+        // Leave as is
+      }
+    }
+    if (typeof req.body.rawReviews === 'string') {
+      try {
+        req.body.rawReviews = JSON.parse(req.body.rawReviews);
+      } catch {
+        // Leave as is
+      }
+    }
+  }
+  next();
+}
 
 // ─── POST /api/analyses ───────────────────────────────────────────────────────
 analysesRouter.post(
   '/',
+  upload.single('file'),
+  multipartJsonPreprocessor,
   validate(CreateAnalysisRequestSchema),
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { url, options: rawOptions } = req.body as z.infer<typeof CreateAnalysisRequestSchema>;
+      const {
+        platform = 'youtube',
+        url = '',
+        pastedText,
+        rawReviews: bodyRawReviews,
+        productMeta,
+        options: rawOptions,
+      } = req.body as z.infer<typeof CreateAnalysisRequestSchema>;
+
       const options = AnalysisOptionsSchema.parse(rawOptions ?? {});
 
-      // Extract and validate video ID (SSRF-safe) — always validate, even in demo
-      let videoId: string;
-      if (config.IS_DEMO) {
-        // Validate URL format even in demo mode; ignore the real videoId
-        extractVideoId(url); // throws AppError if invalid
-        videoId = 'dQw4w9WgXcQ'; // use demo fixture
-      } else {
-        videoId = extractVideoId(url);
+      let videoId = '';
+      let fileCsvContent: string | undefined;
+      let fileRawReviews = bodyRawReviews;
+
+      if (req.file) {
+        const fileContent = req.file.buffer.toString('utf-8');
+        const filename = req.file.originalname?.toLowerCase() || '';
+        if (filename.endsWith('.json') || req.file.mimetype === 'application/json') {
+          try {
+            const parsed = JSON.parse(fileContent);
+            if (Array.isArray(parsed)) {
+              fileRawReviews = parsed;
+            } else if (parsed && typeof parsed === 'object') {
+              fileRawReviews = parsed.reviews || parsed.data || [parsed];
+            }
+          } catch {
+            fileCsvContent = fileContent;
+          }
+        } else {
+          fileCsvContent = fileContent;
+        }
       }
+
+      if (platform === 'youtube') {
+        if (!url) {
+          throw new AppError('INVALID_INPUT', 'YouTube URL is required', 400);
+        }
+        if (config.IS_DEMO) {
+          extractVideoId(url);
+          videoId = 'dQw4w9WgXcQ';
+        } else {
+          videoId = extractVideoId(url);
+        }
+      } else {
+        // Flipkart
+        if (url) {
+          const parsedFk = parseFlipkartUrl(url);
+          videoId = parsedFk?.productId || 'fk-product';
+        } else {
+          videoId = 'fk-upload';
+        }
+      }
+
+      const sourceInput: SourceInput = {
+        url: url || undefined,
+        videoId,
+        pastedText,
+        rawReviews: fileRawReviews as any,
+        productMeta,
+        csvContent: fileCsvContent,
+      };
 
       // Create analysis record
       const analysis = await Analysis.create({
+        platform,
         videoId,
         url,
+        productMeta: productMeta ?? null,
         options: {
           ...options,
           model: options.provider === 'gemini' ? config.GEMINI_MODEL : options.model,
@@ -55,7 +145,7 @@ analysesRouter.post(
 
       // Start job in background (do not await)
       setImmediate(() => {
-        runAnalysisJob(analysis._id.toString(), options).catch((err) => {
+        runAnalysisJob(analysis._id.toString(), options, sourceInput).catch((err) => {
           logger.error({ analysisId: analysis._id, err }, 'Job runner crashed');
         });
       });
@@ -81,7 +171,10 @@ analysesRouter.get(
       const filter: Record<string, unknown> = {};
 
       if (query.q) {
-        filter['videoMeta.title'] = { $regex: query.q, $options: 'i' };
+        filter.$or = [
+          { 'videoMeta.title': { $regex: query.q, $options: 'i' } },
+          { 'productMeta.title': { $regex: query.q, $options: 'i' } },
+        ];
       }
       if (query.status) {
         filter.status = query.status;
@@ -220,6 +313,8 @@ analysesRouter.get(
       if (query.toxic) filter['analysis.isToxic'] = true;
       if (query.aspect) filter['analysis.aspects.aspect'] = { $regex: query.aspect, $options: 'i' };
       if (query.q) filter.normalizedText = { $regex: query.q, $options: 'i' };
+      if (typeof query.rating === 'number') filter.rating = query.rating;
+      if (query.mismatch) filter.ratingMismatch = true;
 
       const sortMap: Record<string, Record<string, 1 | -1>> = {
         likeCount: { likeCount: 1 },
@@ -228,6 +323,8 @@ analysesRouter.get(
         '-publishedAt': { publishedAt: -1 },
         score: { 'analysis.score': 1 },
         '-score': { 'analysis.score': -1 },
+        rating: { rating: 1 },
+        '-rating': { rating: -1 },
       };
       const sort = sortMap[query.sort ?? '-likeCount'] ?? { likeCount: -1 };
 
@@ -278,7 +375,7 @@ analysesRouter.get('/:id/export', async (req: Request, res: Response, next: Next
     } else {
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename="analysis-${analysisId}.csv"`);
-      const header = 'id,text,likeCount,publishedAt,sentiment,score,confidence,emotion,language,isSarcastic,isMixed,isToxic,keywords\n';
+      const header = 'id,text,rating,reviewTitle,ratingMismatch,likeCount,publishedAt,sentiment,score,confidence,emotion,language,isSarcastic,isMixed,isToxic,keywords\n';
       const rows = comments
         .map((c) => {
           const a = c.analysis;
@@ -286,6 +383,9 @@ analysesRouter.get('/:id/export', async (req: Request, res: Response, next: Next
           return [
             c._id,
             `"${(c.normalizedText ?? '').replace(/"/g, '""')}"`,
+            c.rating ?? '',
+            `"${(c.reviewTitle ?? '').replace(/"/g, '""')}"`,
+            c.ratingMismatch ?? false,
             c.likeCount,
             c.publishedAt ?? '',
             a.sentiment,
@@ -423,9 +523,11 @@ analysesRouter.patch(
 function formatAnalysis(a: any) {
   return {
     id: a._id?.toString(),
+    platform: a.platform ?? 'youtube',
     videoId: a.videoId,
     url: a.url,
     videoMeta: a.videoMeta,
+    productMeta: a.productMeta,
     options: a.options,
     status: a.status,
     stage: a.stage,
@@ -454,6 +556,9 @@ function formatComment(c: any) {
     isDuplicateOf: c.isDuplicateOf,
     duplicateCount: c.duplicateCount,
     isSpam: c.isSpam,
+    rating: c.rating,
+    reviewTitle: c.reviewTitle,
+    ratingMismatch: c.ratingMismatch,
     analysis: c.analysis,
     source: c.source,
     signals: c.signals,

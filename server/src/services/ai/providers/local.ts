@@ -401,9 +401,52 @@ function extractKeywords(tokens: string[]): string[] {
     .map(([word]) => word);
 }
 
+// ─── E-Commerce Review Aspects ───────────────────────────────────────────────
+
+const ASPECT_KEYWORDS: Record<string, string[]> = {
+  quality: ['quality', 'build', 'material', 'plastic', 'finish', 'body', 'solid', 'premium', 'cheap', 'durability', 'flimsy', 'durable'],
+  price: ['price', 'cost', 'expensive', 'cheap', 'value', 'paisa wasool', 'budget', 'affordable', 'worth', 'overpriced', 'rate'],
+  delivery: ['delivery', 'shipping', 'courier', 'dispatch', 'delay', 'fast delivery', 'time pe', 'late', 'tracking', 'arrived'],
+  packaging: ['packaging', 'package', 'box', 'unboxing', 'packing', 'sealed', 'seal', 'cardboard', 'bubble wrap', 'toota', 'crushed'],
+  battery: ['battery', 'backup', 'charging', 'charger', 'drain', 'mah', 'charge', 'fast charge'],
+  camera: ['camera', 'photos', 'photo', 'picture', 'daylight', 'selfie', 'lens', 'portrait', 'megapixels', 'low light', 'grainy'],
+  service: ['service', 'customer care', 'support', 'warranty', 'replacement', 'return', 'refund', 'complaint', 'customer service'],
+  'fit/size': ['size', 'fit', 'fitting', 'comfort', 'comfortable', 'tight', 'loose', 'fabric', 'wear', 'large', 'small', 'medium'],
+  durability: ['durable', 'durability', 'longevity', 'broke', 'stopped working', 'crack', 'fragile', 'reliable', 'sturdy', 'survived'],
+  genuineness: ['fake', 'duplicate', 'original', 'genuine', 'authentic', 'copy', 'real', 'counterfeit', 'barcode', 'serial number', 'fraud'],
+};
+
+export function extractReviewAspects(text: string, overallSentiment: Sentiment, overallScore: number): Array<{ aspect: string; sentiment: Sentiment }> {
+  const lc = text.toLowerCase();
+  const aspects: Array<{ aspect: string; sentiment: Sentiment }> = [];
+
+  for (const [aspectName, keywords] of Object.entries(ASPECT_KEYWORDS)) {
+    const matched = keywords.some((kw) => {
+      const re = new RegExp(`(^|\\W)${kw}(\\W|$)`, 'i');
+      return re.test(lc);
+    });
+
+    if (matched) {
+      const isNeg = /\b(poor|bad|worst|terrible|bekar|ghatiya|slow|delay|broken|fake|cheap|drain|horrible|dissatisfied|issue|problem|defective)\b/i.test(lc);
+      const isPos = /\b(good|great|awesome|best|mast|superb|solid|excellent|fast|original|paisa wasool|value|crisp|clear|authentic)\b/i.test(lc);
+
+      let aspectSent: Sentiment = overallSentiment;
+      if (isPos && !isNeg) aspectSent = 'positive';
+      else if (isNeg && !isPos) aspectSent = 'negative';
+
+      aspects.push({ aspect: aspectName, sentiment: aspectSent });
+    }
+  }
+
+  return aspects.slice(0, 5);
+}
+
 // ─── Main In-Process Analyzer ─────────────────────────────────────────────────
 
-export function analyzeLocally(text: string): CommentAnalysis & { signals?: Signals; source?: 'ensemble' | 'fallback' } {
+export function analyzeLocally(
+  text: string,
+  context?: { platform?: 'youtube' | 'flipkart'; rating?: number }
+): CommentAnalysis & { signals?: Signals; source?: 'ensemble' | 'fallback' } {
   const tokens = tokenize(text);
   const emojis = extractEmojis(text);
   const emojiResult = scoreEmojis(emojis);
@@ -466,7 +509,7 @@ export function analyzeLocally(text: string): CommentAnalysis & { signals?: Sign
   const alpha = 15;
   const compound = rawSum / Math.sqrt(rawSum * rawSum + alpha);
 
-  const isSarcastic = detectSarcasm(text, tokens, compound, emojis);
+  let isSarcastic = detectSarcasm(text, tokens, compound, emojis);
 
   // Mixed aspect detection: comment has both positive and negative signals with contrastive conjunction
   const hasContrastiveConjunction = /\b(but|however|lekin|magar|par|although|though)\b/i.test(lcText);
@@ -493,9 +536,28 @@ export function analyzeLocally(text: string): CommentAnalysis & { signals?: Sign
   else if (finalScore < -0.12) sentiment = 'negative';
   else sentiment = 'neutral';
 
+  // Rating vs Text Mismatch & Sarcasm Signal
+  if (typeof context?.rating === 'number' && context.rating >= 1 && context.rating <= 5) {
+    if (context.rating <= 2) {
+      if (/(\bmasterclass\b|\bgenius\b|\bbravo\b|\btop quality lol\b|thanks for nothing|great job\b)/i.test(text)) {
+        isSarcastic = true;
+        sentiment = 'negative';
+        finalScore = Math.min(finalScore, -0.55);
+      } else if (sentiment === 'positive') {
+        // 1 or 2 stars with praise words
+        if (/(!|\bso\b|\bwhat a\b|\blove\b|\bgreat\b|\bawesome\b|\bgood\b)/i.test(text)) {
+          sentiment = 'negative';
+          finalScore = -0.55;
+          isSarcastic = true;
+        }
+      }
+    }
+  }
+
   const { language, script } = detectScriptAndLanguage(text, tokens);
   const emotion = mapToEmotion(finalScore, text, isSarcastic);
   const keywords = extractKeywords(tokens);
+  const aspects = extractReviewAspects(text, sentiment, finalScore);
 
   const isToxic = /\b(idiot|stupid|dumb|moron|loser|hate you|shut up|go die|terrible person|scammer)\b/i.test(text);
   const confidence = Math.min(0.95, Math.max(0.4, 0.45 + Math.abs(finalScore) * 0.5));
@@ -515,7 +577,7 @@ export function analyzeLocally(text: string): CommentAnalysis & { signals?: Sign
     language,
     isSarcastic,
     isMixed,
-    aspects: [],
+    aspects,
     keywords,
     isToxic,
     signals,
@@ -528,7 +590,7 @@ export function analyzeLocally(text: string): CommentAnalysis & { signals?: Sign
 export class LocalProvider implements AIProvider {
   readonly name = 'local';
 
-  async analyzeBatch(items: BatchItem[]): Promise<BatchResult[]> {
+  async analyzeBatch(items: BatchItem[], _promptVersion?: string): Promise<BatchResult[]> {
     const nlpUrl = config.NLP_SERVICE_URL;
     let nlpAvailable = false;
 
@@ -585,13 +647,17 @@ export class LocalProvider implements AIProvider {
                 engineVersion: '2.0.0-nlp',
               };
             }
-            const local = analyzeLocally(item.text);
+            const local = analyzeLocally(item.text, { platform: item.platform, rating: item.rating });
+            const isMismatch =
+              typeof item.rating === 'number' &&
+              ((item.rating <= 2 && local.sentiment === 'positive') ||
+                (item.rating >= 4 && local.sentiment === 'negative'));
             return {
               id: item.id,
               result: local,
               source: 'ensemble' as const,
               signals: local.signals as Record<string, unknown>,
-              needsReview: local.isSarcastic || local.confidence < 0.6,
+              needsReview: local.isSarcastic || isMismatch || local.confidence < 0.6,
               engineVersion: '2.0.0',
             };
           });
@@ -603,13 +669,17 @@ export class LocalProvider implements AIProvider {
 
     // Default: in-process local ensemble
     return items.map((item) => {
-      const local = analyzeLocally(item.text);
+      const local = analyzeLocally(item.text, { platform: item.platform, rating: item.rating });
+      const isMismatch =
+        typeof item.rating === 'number' &&
+        ((item.rating <= 2 && local.sentiment === 'positive') ||
+          (item.rating >= 4 && local.sentiment === 'negative'));
       return {
         id: item.id,
         result: local,
         source: 'ensemble' as const,
         signals: local.signals as Record<string, unknown>,
-        needsReview: local.isSarcastic || local.confidence < 0.6,
+        needsReview: local.isSarcastic || isMismatch || local.confidence < 0.6,
         engineVersion: '2.0.0',
       };
     });

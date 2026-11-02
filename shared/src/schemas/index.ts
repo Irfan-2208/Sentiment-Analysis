@@ -78,6 +78,9 @@ export const CommentSchema = z.object({
   reasoning: z.string().optional(),
   needsReview: z.boolean().optional(),
   engineVersion: z.string().optional(),
+  rating: z.number().min(1).max(5).optional(),
+  reviewTitle: z.string().optional(),
+  ratingMismatch: z.boolean().optional(),
   userOverride: z
     .object({
       sentiment: SentimentSchema,
@@ -86,6 +89,11 @@ export const CommentSchema = z.object({
     .nullable(),
 });
 export type Comment = z.infer<typeof CommentSchema>;
+
+// ─── Platform ──────────────────────────────────────────────────────────────
+
+export const PlatformSchema = z.enum(['youtube', 'flipkart']);
+export type Platform = z.infer<typeof PlatformSchema>;
 
 // ─── Video Meta ────────────────────────────────────────────────────────────
 
@@ -102,6 +110,22 @@ export const VideoMetaSchema = z.object({
   description: z.string().max(500).optional(),
 });
 export type VideoMeta = z.infer<typeof VideoMetaSchema>;
+
+// ─── Product Meta (E-Commerce / Flipkart) ──────────────────────────────────
+
+export const ProductMetaSchema = z.object({
+  productId: z.string(),
+  title: z.string(),
+  price: z.number().optional(),
+  rating: z.number().optional(),
+  ratingCount: z.number().int().min(0).optional(),
+  reviewCount: z.number().int().min(0).optional(),
+  thumbnailUrl: z.string().url().optional(),
+  productUrl: z.string().optional(),
+  brand: z.string().optional(),
+  source: z.enum(['csv', 'paste', 'affiliate', 'provider', 'demo']).default('csv'),
+});
+export type ProductMeta = z.infer<typeof ProductMetaSchema>;
 
 // ─── Analysis Options ──────────────────────────────────────────────────────
 
@@ -188,6 +212,15 @@ export const LanguageStatSchema = z.object({
 });
 export type LanguageStat = z.infer<typeof LanguageStatSchema>;
 
+export const AspectRatingStatSchema = z.object({
+  aspect: z.string(),
+  positive: z.number().int().min(0),
+  negative: z.number().int().min(0),
+  neutral: z.number().int().min(0),
+  avgRating: z.number().optional(),
+});
+export type AspectRatingStat = z.infer<typeof AspectRatingStatSchema>;
+
 export const AnalysisStatsSchema = z.object({
   totalFetched: z.number().int().min(0),
   totalDeduplicated: z.number().int().min(0),
@@ -205,6 +238,12 @@ export const AnalysisStatsSchema = z.object({
   aspectStats: z.array(AspectStatSchema),
   emotionDistribution: z.array(EmotionStatSchema),
   languageDistribution: z.array(LanguageStatSchema),
+  // E-Commerce / Flipkart review extensions
+  ratingDistribution: z.record(z.string(), z.number().int().min(0)).optional(),
+  ratingMismatchCount: z.number().int().min(0).optional(),
+  topPros: z.array(z.string()).optional(),
+  topCons: z.array(z.string()).optional(),
+  aspectRatingStats: z.array(AspectRatingStatSchema).optional(),
 });
 export type AnalysisStats = z.infer<typeof AnalysisStatsSchema>;
 
@@ -238,9 +277,11 @@ export type AnalysisProgress = z.infer<typeof AnalysisProgressSchema>;
 
 export const AnalysisSchema = z.object({
   id: z.string(),
+  platform: PlatformSchema.default('youtube'),
   videoId: z.string(),
-  url: z.string().url(),
+  url: z.string(),
   videoMeta: VideoMetaSchema.nullable(),
+  productMeta: ProductMetaSchema.nullable().optional(),
   options: AnalysisOptionsSchema,
   status: AnalysisStatusSchema,
   stage: AnalysisStageSchema,
@@ -258,14 +299,40 @@ export type Analysis = z.infer<typeof AnalysisSchema>;
 // ─── API Requests ──────────────────────────────────────────────────────────
 
 export const CreateAnalysisRequestSchema = z.object({
-  url: z.string().min(1, 'URL is required').max(500),
+  platform: PlatformSchema.default('youtube'),
+  url: z.string().max(1000).optional(),
   options: AnalysisOptionsSchema.optional(),
+  pastedText: z.string().max(5_000_000).optional(),
+  rawReviews: z.array(z.object({
+    text: z.string().min(1),
+    rating: z.number().min(1).max(5).optional(),
+    title: z.string().optional(),
+    date: z.string().optional(),
+    likes: z.number().optional(),
+    author: z.string().optional(),
+  })).max(5000).optional(),
+  productMeta: z.object({
+    title: z.string().optional(),
+    url: z.string().optional(),
+    thumbnailUrl: z.string().optional(),
+    price: z.number().optional(),
+    productId: z.string().optional(),
+    brand: z.string().optional(),
+  }).optional(),
 });
 export type CreateAnalysisRequest = z.infer<typeof CreateAnalysisRequestSchema>;
 
 export const ListCommentsQuerySchema = z.object({
   sentiment: SentimentSchema.optional(),
   language: LanguageSchema.optional(),
+  rating: z
+    .string()
+    .optional()
+    .transform((v) => (v ? parseInt(v, 10) : undefined)),
+  mismatch: z
+    .string()
+    .optional()
+    .transform((v) => v === 'true'),
   sarcastic: z
     .string()
     .optional()
@@ -276,7 +343,7 @@ export const ListCommentsQuerySchema = z.object({
     .transform((v) => v === 'true'),
   aspect: z.string().optional(),
   q: z.string().max(200).optional(),
-  sort: z.enum(['likeCount', 'publishedAt', 'score', '-likeCount', '-publishedAt', '-score']).optional().default('-likeCount'),
+  sort: z.enum(['likeCount', 'publishedAt', 'score', '-likeCount', '-publishedAt', '-score', 'rating', '-rating']).optional().default('-likeCount'),
   page: z
     .string()
     .optional()

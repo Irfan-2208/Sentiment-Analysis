@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { ThumbsUp, AlertTriangle, Zap, Globe, ChevronDown, ChevronUp, Edit3 } from 'lucide-react';
+import { ThumbsUp, AlertTriangle, Globe, ChevronDown, ChevronUp, Edit3, Star } from 'lucide-react';
 import { useComments, useOverrideComment } from '../../api/hooks';
 import type { Comment } from '@social-pulse/shared';
 
@@ -13,17 +13,27 @@ const SENTIMENT_BADGE: Record<string, string> = {
 interface FiltersState {
   sentiment: string;
   language: string;
+  rating: string;
+  mismatch: boolean;
   sarcastic: boolean;
   toxic: boolean;
   sort: string;
   q: string;
 }
 
-export function CommentFeed({ analysisId }: { analysisId: string }) {
+export function CommentFeed({
+  analysisId,
+  initialMismatchOnly = false,
+}: {
+  analysisId: string;
+  initialMismatchOnly?: boolean;
+}) {
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState<FiltersState>({
     sentiment: '',
     language: '',
+    rating: '',
+    mismatch: initialMismatchOnly,
     sarcastic: false,
     toxic: false,
     sort: '-likeCount',
@@ -34,7 +44,11 @@ export function CommentFeed({ analysisId }: { analysisId: string }) {
   const { data, isLoading } = useComments(analysisId, {
     page,
     limit: 20,
-    ...Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '' && v !== false)),
+    ...Object.fromEntries(
+      Object.entries(filters)
+        .filter(([, v]) => v !== '' && v !== false)
+        .map(([k, v]) => [k, typeof v === 'boolean' ? String(v) : v])
+    ),
   });
 
   const override = useOverrideComment();
@@ -54,8 +68,8 @@ export function CommentFeed({ analysisId }: { analysisId: string }) {
   };
 
   return (
-    <section aria-labelledby="comments-heading">
-      <h2 id="comments-heading" className="section-title">Comments</h2>
+    <section aria-labelledby="comments-heading" id="comment-feed-section">
+      <h2 id="comments-heading" className="section-title">Reviews & Comments</h2>
 
       {/* ── Filter bar ─────────────────────────────────────── */}
       <div className="flex flex-wrap gap-2 mb-4">
@@ -70,6 +84,21 @@ export function CommentFeed({ analysisId }: { analysisId: string }) {
           <option value="positive">Positive</option>
           <option value="negative">Negative</option>
           <option value="neutral">Neutral</option>
+        </select>
+
+        {/* Rating filter */}
+        <select
+          value={filters.rating}
+          onChange={(e) => handleFilter('rating', e.target.value)}
+          className="input-base w-auto text-xs py-1.5"
+          aria-label="Filter by star rating"
+        >
+          <option value="">All Ratings</option>
+          <option value="5">5 ★ Only</option>
+          <option value="4">4 ★ Only</option>
+          <option value="3">3 ★ Only</option>
+          <option value="2">2 ★ Only</option>
+          <option value="1">1 ★ Only</option>
         </select>
 
         {/* Language filter */}
@@ -97,9 +126,24 @@ export function CommentFeed({ analysisId }: { analysisId: string }) {
           <option value="likeCount">Least liked</option>
           <option value="-score">Highest score</option>
           <option value="score">Lowest score</option>
+          <option value="-rating">Highest rating</option>
+          <option value="rating">Lowest rating</option>
           <option value="-publishedAt">Newest</option>
           <option value="publishedAt">Oldest</option>
         </select>
+
+        {/* Mismatch filter */}
+        <button
+          onClick={() => handleFilter('mismatch', !filters.mismatch)}
+          className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+            filters.mismatch
+              ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 ring-1 ring-amber-500/30'
+              : 'glass text-slate-400'
+          }`}
+          aria-pressed={filters.mismatch}
+        >
+          ⚡ Rating Mismatches
+        </button>
 
         {/* Flags */}
         <button
@@ -148,6 +192,13 @@ export function CommentFeed({ analysisId }: { analysisId: string }) {
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
+                    {/* Review Title if present */}
+                    {comment.reviewTitle && (
+                      <h4 className="text-sm font-bold text-slate-100 mb-1 leading-snug">
+                        {comment.reviewTitle}
+                      </h4>
+                    )}
+
                     {/* Text */}
                     <p className={`text-sm text-slate-300 leading-relaxed ${isExpanded ? '' : 'line-clamp-2'}`}>
                       {comment.text}
@@ -166,6 +217,31 @@ export function CommentFeed({ analysisId }: { analysisId: string }) {
                     {/* Meta row */}
                     {a && (
                       <div className="flex flex-wrap items-center gap-2 mt-2">
+                        {/* Star Rating Badge */}
+                        {typeof comment.rating === 'number' && (
+                          <span
+                            className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-xs font-bold ${
+                              comment.rating >= 4
+                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                : comment.rating === 3
+                                  ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                                  : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            }`}
+                          >
+                            {comment.rating} <Star className="w-3 h-3 fill-current inline" />
+                          </span>
+                        )}
+
+                        {/* Rating Mismatch Flag */}
+                        {comment.ratingMismatch && (
+                          <span
+                            className="badge bg-amber-500/20 text-amber-300 border-amber-500/40 font-semibold"
+                            title="Rating vs text mismatch"
+                          >
+                            ⚡ Mismatch
+                          </span>
+                        )}
+
                         {/* Sentiment badge */}
                         <span className={SENTIMENT_BADGE[effectiveSentiment ?? 'neutral']}>
                           {effectiveSentiment}

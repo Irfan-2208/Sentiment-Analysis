@@ -8,6 +8,8 @@ export interface CommentForBatch {
   externalId: string;
   normalizedText: string;
   hash: string;
+  platform?: 'youtube' | 'flipkart';
+  rating?: number;
 }
 
 export interface DispatchResult {
@@ -42,12 +44,14 @@ export async function dispatchBatches(
   const limit = pLimit(concurrency);
 
   // Build batches
-  const batches: Array<{ items: Array<{ id: string; text: string; externalId: string }>; batchIndex: number }> = [];
+  const batches: Array<{ items: Array<{ id: string; text: string; externalId: string; platform?: 'youtube' | 'flipkart'; rating?: number }>; batchIndex: number }> = [];
   for (let i = 0; i < comments.length; i += batchSize) {
     const slice = comments.slice(i, i + batchSize);
     const items = slice.map((c, j) => ({
       id: shortId(j),
       text: c.normalizedText,
+      platform: c.platform,
+      rating: c.rating,
       externalId: c.externalId,
     }));
     batches.push({ items, batchIndex: Math.floor(i / batchSize) });
@@ -68,6 +72,8 @@ export async function dispatchBatches(
       const batchItems = batch.items.map((item) => ({
         id: item.id,
         text: item.text,
+        platform: item.platform,
+        rating: item.rating,
       }));
 
       const results = await provider.analyzeBatch(batchItems, promptVersion);

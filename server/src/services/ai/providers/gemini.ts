@@ -22,9 +22,9 @@ const geminiRateLimiter = new PQueue({
   interval: 60_000,
 });
 
-// ─── System prompt ────────────────────────────────────────────────────────────
+// ─── System prompts ───────────────────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `You are a multilingual social media comment sentiment analysis engine.
+const SYSTEM_PROMPT_YOUTUBE = `You are a multilingual social media comment sentiment analysis engine.
 
 CRITICAL RULES:
 1. Analyze EVERY comment ID provided. Return exactly one result per ID — no more, no less.
@@ -46,6 +46,27 @@ SENTIMENT LABELS:
 SARCASM DETECTION:
 Patterns: "Oh sure [negative context]", "Yeah right", "So helpful [irony]", positive words + eye-roll emojis.
 When sarcastic: the label must reflect ACTUAL meaning, not literal words.`;
+
+const SYSTEM_PROMPT_FLIPKART = `You are a multilingual e-commerce product review sentiment analysis engine analyzing customer reviews.
+
+CRITICAL RULES:
+1. Analyze EVERY review ID provided. Return exactly one result per ID — no more, no less.
+2. Return ONLY valid JSON matching the exact schema. No markdown backticks or commentary.
+3. Understand Hinglish (Romanized Hindi mixed with English) and Devanagari Hindi. Common words: yaar, bhai, mast, ekdum, achha, bakwas, sahi, bohot, paisa wasool, bekar, toota hua, duplicate, nakli, fake, dabba.
+4. Product Review Aspects: Identify and extract specific aspects mentioned: quality, price, delivery, packaging, battery, camera, service, fit/size, durability, genuineness/authenticity, along with their sentiment.
+5. Star Rating vs Text Mismatch: If a customer rating is low (1 or 2 stars) but text uses praise words (e.g., "Arrived in 50 pieces, what a masterclass!"), detect sarcasm or rating mismatch and label the actual intended negative sentiment.
+6. Handle emojis as sentiment signals: 🔥😍❤️👍 → positive; 🙄😒😡👎 → negative.
+7. Mixed reviews: assign an overall label based on dominant tone, set isMixed=true.
+8. Never invent content. Only analyze what is given.
+9. isToxic: true only for hate speech, slurs, or direct personal attacks.
+10. reasoning: concise explanation (<= 20 words) explaining why this label was assigned.
+
+SENTIMENT LABELS:
+- positive: clearly favorable, praising, satisfied
+- negative: clearly unfavorable, complaining, defective, fake product, poor quality
+- neutral: balanced, factual without clear leaning`;
+
+const SYSTEM_PROMPT = SYSTEM_PROMPT_YOUTUBE;
 
 // ─── Response schema ──────────────────────────────────────────────────────────
 
@@ -185,6 +206,9 @@ export class GeminiProvider implements AIProvider {
     const parsedMap: Record<string, CommentAnalysis & { reasoning?: string }> = {};
     let pendingItems = [...uncachedItems];
 
+    const isFlipkart = items.some((i) => i.platform === 'flipkart');
+    const systemInstruction = isFlipkart ? SYSTEM_PROMPT_FLIPKART : SYSTEM_PROMPT_YOUTUBE;
+
     modelLoop: for (const activeModel of modelsToTry) {
       if (pendingItems.length === 0) break;
 
@@ -200,7 +224,7 @@ export class GeminiProvider implements AIProvider {
               model: activeModel,
               contents: prompt,
               config: {
-                systemInstruction: SYSTEM_PROMPT,
+                systemInstruction,
                 responseMimeType: 'application/json',
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 responseSchema: RESPONSE_JSON_SCHEMA as any,
@@ -280,7 +304,7 @@ export class GeminiProvider implements AIProvider {
           { id: item.id, textSample: item.text.slice(0, 50) },
           'Comment failed AI analysis across all retries/models; using local ensemble fallback'
         );
-        const local = analyzeLocally(item.text);
+        const local = analyzeLocally(item.text, { platform: item.platform, rating: item.rating });
         batchResults.push({
           id: item.id,
           result: local,
@@ -296,11 +320,16 @@ export class GeminiProvider implements AIProvider {
   }
 
   private buildPrompt(items: BatchItem[]): string {
+    const isFlipkart = items.some((i) => i.platform === 'flipkart');
+    const itemLabel = isFlipkart ? 'e-commerce product reviews' : 'comments';
     const commentsList = items
-      .map((item) => `"${item.id}": ${JSON.stringify(item.text)}`)
+      .map((item) => {
+        const ratingHint = item.rating ? ` [Customer Rating: ${item.rating}/5 stars]` : '';
+        return `"${item.id}": ${JSON.stringify(item.text)}${ratingHint}`;
+      })
       .join('\n');
 
-    return `Analyze the sentiment of these ${items.length} comments. Return ONLY a valid JSON object where each key is the comment ID and each value matches this structure:
+    return `Analyze the sentiment of these ${items.length} ${itemLabel}. Return ONLY a valid JSON object where each key is the ID and each value matches this structure:
 {
   "<id>": {
     "sentiment": "positive" | "negative" | "neutral",

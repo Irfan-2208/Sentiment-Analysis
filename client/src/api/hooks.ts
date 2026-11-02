@@ -33,10 +33,33 @@ export function useAnalyses(params?: Record<string, string>) {
   });
 }
 
+export interface CreateAnalysisPayload {
+  platform?: 'youtube' | 'flipkart';
+  url?: string;
+  pastedText?: string;
+  rawReviews?: unknown[];
+  productMeta?: Record<string, unknown>;
+  file?: File;
+  options?: Record<string, unknown>;
+}
+
 export function useCreateAnalysis() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (payload: { url: string; options?: Record<string, unknown> }) => {
+    mutationFn: async (payload: CreateAnalysisPayload) => {
+      if (payload.file) {
+        const formData = new FormData();
+        formData.append('file', payload.file);
+        if (payload.platform) formData.append('platform', payload.platform);
+        if (payload.url) formData.append('url', payload.url);
+        if (payload.pastedText) formData.append('pastedText', payload.pastedText);
+        if (payload.productMeta) formData.append('productMeta', JSON.stringify(payload.productMeta));
+        if (payload.options) formData.append('options', JSON.stringify(payload.options));
+        const res = await api.post<{ analysisId: string; demo: boolean }>('/analyses', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        return res.data;
+      }
       const res = await api.post<{ analysisId: string; demo: boolean }>('/analyses', payload);
       return res.data;
     },

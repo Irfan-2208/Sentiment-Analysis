@@ -1,20 +1,18 @@
 import mongoose from 'mongoose';
 import { Analysis } from '../models/Analysis.js';
 import { Comment } from '../models/Comment.js';
-import { extractVideoId } from '../services/youtube/urlParser.js';
-import { fetchVideoMeta } from '../services/youtube/videoMeta.js';
-import { fetchComments } from '../services/youtube/commentFetcher.js';
-import { getDemoVideoMeta, getDemoComments } from '../services/youtube/demoData.js';
 import { preprocessComments } from '../services/preprocess/normalizer.js';
 import { deduplicateComments } from '../services/preprocess/deduplicator.js';
 import { flagSpam } from '../services/preprocess/spamDetector.js';
 import { getProvider } from '../services/ai/providerFactory.js';
 import { dispatchBatches } from '../services/ai/batchDispatcher.js';
 import { computeStats } from '../services/aggregate/computeStats.js';
+import { getSourceAdapter } from '../services/sources/adapterRegistry.js';
+import type { SourceInput } from '../services/sources/types.js';
 import { sseEmitter } from './sseEmitter.js';
 import { config } from '../config/index.js';
 import { logger } from '../utils/logger.js';
-import type { AnalysisOptions } from '@social-pulse/shared';
+import type { AnalysisOptions, VideoMeta, ProductMeta } from '@social-pulse/shared';
 
 // Track running jobs for cancellation
 const runningJobs = new Map<string, { cancelled: boolean }>();
@@ -36,7 +34,11 @@ export function isJobRunning(analysisId: string): boolean {
  * Runs the full analysis pipeline in the background.
  * Emits SSE events at each stage.
  */
-export async function runAnalysisJob(analysisId: string, options: AnalysisOptions): Promise<void> {
+export async function runAnalysisJob(
+  analysisId: string,
+  options: AnalysisOptions,
+  sourceInput?: SourceInput
+): Promise<void> {
   const jobToken = { cancelled: false };
   runningJobs.set(analysisId, jobToken);
   const mongoId = new mongoose.Types.ObjectId(analysisId);
@@ -59,43 +61,54 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
     emit('progress', { stage: 'validating', fetched: 0, analyzed: 0, total: 0 });
 
     const isDemo = config.IS_DEMO;
-    let videoMeta;
     const analysis = await Analysis.findById(analysisId);
     if (!analysis) throw new Error('Analysis not found');
 
-    if (isDemo) {
-      videoMeta = getDemoVideoMeta();
-    } else {
-      const videoId = extractVideoId(analysis.url);
-      videoMeta = await fetchVideoMeta(videoId);
-    }
+    const platform = analysis.platform ?? 'youtube';
+    const adapter = getSourceAdapter(platform);
 
-    await updateAnalysis({ videoMeta });
+    const effectiveInput: SourceInput = sourceInput ?? {
+      url: analysis.url,
+      videoId: analysis.videoId,
+      productMeta: analysis.productMeta ?? undefined,
+    };
+
+    const validatedInput = await adapter.validateInput(effectiveInput);
+    const meta = await adapter.fetchMeta(validatedInput);
+
+    if (platform === 'flipkart') {
+      await updateAnalysis({ productMeta: meta as ProductMeta });
+    } else {
+      await updateAnalysis({ videoMeta: meta as VideoMeta });
+    }
     checkCancelled();
 
     // ── Stage: fetching ───────────────────────────────────
     await updateAnalysis({ stage: 'fetching', 'progress.stage': 'fetching' });
-    const targetFetchTotal = options.maxComments > 0 ? options.maxComments : (videoMeta.commentCount || 0);
+    const targetFetchTotal =
+      options.maxComments > 0
+        ? options.maxComments
+        : platform === 'flipkart'
+          ? (meta as ProductMeta).reviewCount || 0
+          : (meta as VideoMeta).commentCount || 0;
     emit('progress', { stage: 'fetching', fetched: 0, analyzed: 0, total: targetFetchTotal });
 
-    let rawComments;
-    if (isDemo) {
-      rawComments = getDemoComments(options.maxComments);
-    } else {
-      rawComments = await fetchComments(videoMeta.videoId, {
-        maxComments: options.maxComments,
+    const rawComments = await adapter.fetchItems(
+      validatedInput,
+      {
+        maxItems: options.maxComments,
         order: options.order,
         includeReplies: options.includeReplies,
-        onProgress: (fetched) => {
-          emit('progress', {
-            stage: 'fetching',
-            fetched,
-            analyzed: 0,
-            total: options.maxComments > 0 ? options.maxComments : Math.max(fetched, videoMeta.commentCount || 0),
-          });
-        },
-      });
-    }
+      },
+      (fetched) => {
+        emit('progress', {
+          stage: 'fetching',
+          fetched,
+          analyzed: 0,
+          total: options.maxComments > 0 ? options.maxComments : Math.max(fetched, targetFetchTotal),
+        });
+      }
+    );
 
     const totalFetched = rawComments.length;
     await updateAnalysis({ 'progress.fetched': totalFetched, 'progress.total': totalFetched });
@@ -128,6 +141,8 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
       isDuplicateOf: duplicateMap.get(c.externalId) ?? null,
       duplicateCount: duplicateCounts.get(c.externalId) ?? 0,
       isSpam: spamFlags[i],
+      rating: c.rating,
+      reviewTitle: c.reviewTitle,
       analysis: null,
       source: null,
       userOverride: null,
@@ -149,6 +164,8 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
         isDuplicateOf: canonicalId,
         duplicateCount: 0,
         isSpam: false,
+        rating: original.rating,
+        reviewTitle: original.reviewTitle,
         analysis: null,
         source: null,
         userOverride: null,
@@ -174,6 +191,8 @@ export async function runAnalysisJob(analysisId: string, options: AnalysisOption
       externalId: c.externalId,
       normalizedText: c.normalizedText,
       hash: c.hash,
+      platform,
+      rating: c.rating,
     }));
 
     const dynamicBatchSize = nonSpam.length > 500 ? Math.max(config.BATCH_SIZE, 50) : config.BATCH_SIZE;

@@ -31,6 +31,9 @@ export interface IComment extends Document {
   reasoning?: string | null;
   needsReview?: boolean;
   engineVersion?: string | null;
+  rating?: number | null;
+  reviewTitle?: string | null;
+  ratingMismatch?: boolean;
   userOverride: {
     sentiment: Sentiment;
     overriddenAt: Date;
@@ -73,6 +76,9 @@ const commentSchema = new Schema<IComment>(
     reasoning: { type: String, default: null },
     needsReview: { type: Boolean, default: false },
     engineVersion: { type: String, default: null },
+    rating: { type: Number, min: 1, max: 5, default: null },
+    reviewTitle: { type: String, default: null },
+    ratingMismatch: { type: Boolean, default: false },
     userOverride: {
       type: {
         sentiment: String,
@@ -90,5 +96,7 @@ commentSchema.index({ analysisId: 1, isSpam: 1, isDuplicateOf: 1 });
 commentSchema.index({ analysisId: 1, 'analysis.sentiment': 1 });
 commentSchema.index({ analysisId: 1, 'analysis.language': 1 });
 commentSchema.index({ analysisId: 1, likeCount: -1 });
+commentSchema.index({ analysisId: 1, rating: 1 });
+commentSchema.index({ analysisId: 1, ratingMismatch: 1 });
 
 export const Comment: Model<IComment> = mongoose.model<IComment>('Comment', commentSchema);

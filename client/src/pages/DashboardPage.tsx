@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { ArrowLeft, RefreshCw, Download, AlertCircle, Info } from 'lucide-react';
@@ -10,11 +11,16 @@ import { InsightPanel } from '../components/dashboard/InsightPanel';
 import { CommentFeed } from '../components/dashboard/CommentFeed';
 import { AspectBreakdown } from '../components/dashboard/AspectBreakdown';
 import { VideoHeader } from '../components/dashboard/VideoHeader';
+import { ProductHeader } from '../components/dashboard/ProductHeader';
+import { RatingDistribution } from '../components/dashboard/RatingDistribution';
+import { ProsConsList } from '../components/dashboard/ProsConsList';
+import { RatingMismatchBanner } from '../components/dashboard/RatingMismatchBanner';
 
 export function DashboardPage() {
   const { id } = useParams<{ id: string }>();
   const { data: analysis, isLoading, error } = useAnalysis(id!);
   const reanalyze = useReanalyze();
+  const commentFeedRef = useRef<HTMLDivElement>(null);
 
   const handleExport = (format: 'json' | 'csv') => {
     window.open(`/api/analyses/${id}/export?format=${format}`, '_blank');
@@ -27,6 +33,10 @@ export function DashboardPage() {
     } catch {
       toast.error('Failed to start reanalysis');
     }
+  };
+
+  const scrollToComments = () => {
+    document.getElementById('comment-feed-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   if (isLoading) return <DashboardSkeleton />;
@@ -43,6 +53,12 @@ export function DashboardPage() {
 
   const stats = analysis.stats;
   const insight = analysis.insight;
+  const isFlipkart = analysis.platform === 'flipkart';
+
+  const ratingDist = stats?.ratingDistribution as Record<string, number> | undefined;
+  const hasRatingDist =
+    ratingDist &&
+    (ratingDist['1'] || ratingDist['2'] || ratingDist['3'] || ratingDist['4'] || ratingDist['5']);
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -53,6 +69,11 @@ export function DashboardPage() {
           Back
         </Link>
         <div className="flex items-center gap-2">
+          {isFlipkart && (
+            <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 font-medium">
+              🛒 Flipkart Reviews
+            </span>
+          )}
           {analysis.demo && <span className="badge-demo">Demo mode</span>}
           {analysis.usedFallback && (
             <span className="badge-fallback" title="Some or all comments were analyzed with the local rule-based analyzer">
@@ -88,10 +109,14 @@ export function DashboardPage() {
         </div>
       </div>
 
-      {/* ── Video header ────────────────────────────────────── */}
-      {analysis.videoMeta && <VideoHeader meta={analysis.videoMeta} />}
+      {/* ── Platform header ──────────────────────────────────── */}
+      {isFlipkart && analysis.productMeta ? (
+        <ProductHeader meta={analysis.productMeta} />
+      ) : analysis.videoMeta ? (
+        <VideoHeader meta={analysis.videoMeta} />
+      ) : null}
 
-      {/* ── Fallback Engine Banner (B2 requirement) ──────────── */}
+      {/* ── Fallback Engine Banner ──────────── */}
       {analysis.usedFallback && (
         <div className="w-full bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-xl p-4 flex items-center justify-between flex-wrap gap-4 text-sm shadow-sm">
           <div className="flex items-center gap-3">
@@ -123,8 +148,34 @@ export function DashboardPage() {
         </div>
       ) : (
         <>
+          {/* ── Rating Mismatch Banner (Flipkart) ────────────── */}
+          {isFlipkart && stats.ratingMismatchCount && stats.ratingMismatchCount > 0 ? (
+            <RatingMismatchBanner
+              mismatchCount={stats.ratingMismatchCount}
+              onFilterMismatch={scrollToComments}
+            />
+          ) : null}
+
           {/* ── KPI Row ─────────────────────────────────────── */}
           <SentimentOverview stats={stats} />
+
+          {/* ── Rating Distribution (Flipkart) ───────────────── */}
+          {isFlipkart && hasRatingDist && (
+            <RatingDistribution
+              distribution={{
+                1: ratingDist!['1'] || 0,
+                2: ratingDist!['2'] || 0,
+                3: ratingDist!['3'] || 0,
+                4: ratingDist!['4'] || 0,
+                5: ratingDist!['5'] || 0,
+              }}
+            />
+          )}
+
+          {/* ── Pros & Cons (Flipkart) ───────────────────────── */}
+          {isFlipkart && (stats.topPros || stats.topCons) && (
+            <ProsConsList topPros={stats.topPros} topCons={stats.topCons} />
+          )}
 
           {/* ── Main grid ───────────────────────────────────── */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -132,7 +183,12 @@ export function DashboardPage() {
             <div className="xl:col-span-2 space-y-6">
               {stats.sentimentOverTime.length > 1 && <SentimentTimeline data={stats.sentimentOverTime} />}
               <KeywordsCloud keywords={stats.topKeywords} />
-              {stats.aspectStats.length > 0 && <AspectBreakdown aspects={stats.aspectStats} />}
+              {stats.aspectStats.length > 0 && (
+                <AspectBreakdown
+                  aspects={stats.aspectStats}
+                  aspectRatingStats={stats.aspectRatingStats}
+                />
+              )}
             </div>
 
             {/* Right: emotion + insight */}
@@ -142,8 +198,10 @@ export function DashboardPage() {
             </div>
           </div>
 
-          {/* ── Comment feed ────────────────────────────────── */}
-          <CommentFeed analysisId={id!} />
+          {/* ── Comment/Review feed ──────────────────────────── */}
+          <div ref={commentFeedRef}>
+            <CommentFeed analysisId={id!} />
+          </div>
         </>
       )}
     </div>

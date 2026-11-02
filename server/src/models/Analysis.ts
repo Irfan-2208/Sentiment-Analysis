@@ -1,9 +1,11 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import type {
+  Platform,
   AnalysisStatus,
   AnalysisStage,
   AnalysisOptions,
   VideoMeta,
+  ProductMeta,
   AnalysisStats,
   AnalysisInsight,
   AnalysisProgress,
@@ -11,9 +13,11 @@ import type {
 
 export interface IAnalysis extends Document {
   _id: mongoose.Types.ObjectId;
+  platform: Platform;
   videoId: string;
   url: string;
   videoMeta: VideoMeta | null;
+  productMeta: ProductMeta | null;
   options: AnalysisOptions;
   status: AnalysisStatus;
   stage: AnalysisStage;
@@ -39,6 +43,22 @@ const videoMetaSchema = new Schema(
     likeCount: Number,
     commentCount: Number,
     description: String,
+  },
+  { _id: false }
+);
+
+const productMetaSchema = new Schema(
+  {
+    productId: String,
+    title: String,
+    price: Number,
+    rating: Number,
+    ratingCount: Number,
+    reviewCount: Number,
+    thumbnailUrl: String,
+    productUrl: String,
+    brand: String,
+    source: String,
   },
   { _id: false }
 );
@@ -78,6 +98,11 @@ const analysisStatsSchema = new Schema(
     aspectStats: [Schema.Types.Mixed],
     emotionDistribution: [Schema.Types.Mixed],
     languageDistribution: [Schema.Types.Mixed],
+    ratingDistribution: { type: Schema.Types.Mixed, default: null },
+    ratingMismatchCount: { type: Number, default: 0 },
+    topPros: { type: [String], default: [] },
+    topCons: { type: [String], default: [] },
+    aspectRatingStats: [Schema.Types.Mixed],
   },
   { _id: false }
 );
@@ -107,9 +132,11 @@ const progressSchema = new Schema(
 
 const analysisSchema = new Schema<IAnalysis>(
   {
+    platform: { type: String, enum: ['youtube', 'flipkart'], default: 'youtube', index: true },
     videoId: { type: String, required: true, index: true },
     url: { type: String, required: true },
     videoMeta: { type: videoMetaSchema, default: null },
+    productMeta: { type: productMetaSchema, default: null },
     options: {
       type: {
         maxComments: Number,

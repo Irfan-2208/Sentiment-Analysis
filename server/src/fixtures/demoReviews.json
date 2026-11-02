@@ -1,0 +1,1402 @@
+[
+  {
+    "id": "fk-d001",
+    "text": "Outstanding performance and battery life! The camera exceeds all expectations.",
+    "rating": 5,
+    "title": "Classy product",
+    "likeCount": 45
+  },
+  {
+    "id": "fk-d002",
+    "text": "Value for money! Display is super bright even under direct sunlight.",
+    "rating": 5,
+    "title": "Worth every penny",
+    "likeCount": 32
+  },
+  {
+    "id": "fk-d003",
+    "text": "Delivered within 24 hours. The packaging was top-notch with tamper-evident seal.",
+    "rating": 5,
+    "title": "Terrific purchase",
+    "likeCount": 18
+  },
+  {
+    "id": "fk-d004",
+    "text": "Premium build quality. Feels so good in hands and light weight.",
+    "rating": 5,
+    "title": "Fabulous!",
+    "likeCount": 12
+  },
+  {
+    "id": "fk-d005",
+    "text": "Genuineness verified via serial number on official website. 100% authentic product.",
+    "rating": 5,
+    "title": "Highly recommended",
+    "likeCount": 65
+  },
+  {
+    "id": "fk-d006",
+    "text": "Sound quality is crisp and bass is punchy. Best headphones under this price range.",
+    "rating": 5,
+    "title": "Great sound experience",
+    "likeCount": 22
+  },
+  {
+    "id": "fk-d007",
+    "text": "Superfast charging! Goes from 0 to 80% in just 25 minutes.",
+    "rating": 5,
+    "title": "Must buy!",
+    "likeCount": 29
+  },
+  {
+    "id": "fk-d008",
+    "text": "Perfect fit and comfortable fabric. Looks exactly as shown in images.",
+    "rating": 5,
+    "title": "Simply awesome",
+    "likeCount": 14
+  },
+  {
+    "id": "fk-d009",
+    "text": "Excellent customer support and hassle-free warranty registration.",
+    "rating": 5,
+    "title": "Superb service",
+    "likeCount": 8
+  },
+  {
+    "id": "fk-d010",
+    "text": "Upgraded from older generation and the difference is massive. Extremely satisfied.",
+    "rating": 5,
+    "title": "Brilliant upgrade",
+    "likeCount": 51
+  },
+  {
+    "id": "fk-d011",
+    "text": "Great product overall, but delivery took 4 days longer than estimated.",
+    "rating": 4,
+    "title": "Good choice",
+    "likeCount": 19
+  },
+  {
+    "id": "fk-d012",
+    "text": "Camera is amazing in daylight, but low light shots have a little noise.",
+    "rating": 4,
+    "title": "Very Good",
+    "likeCount": 15
+  },
+  {
+    "id": "fk-d013",
+    "text": "Battery lasts full day easily. Only con is no charger in the box.",
+    "rating": 4,
+    "title": "Nice phone with minor flaw",
+    "likeCount": 34
+  },
+  {
+    "id": "fk-d014",
+    "text": "Good build quality. Size is slightly larger than expected but manageable.",
+    "rating": 4,
+    "title": "Solid buy",
+    "likeCount": 6
+  },
+  {
+    "id": "fk-d015",
+    "text": "Good performance for daily tasks, not meant for heavy gaming though.",
+    "rating": 4,
+    "title": "Value for money",
+    "likeCount": 11
+  },
+  {
+    "id": "fk-d016",
+    "text": "Clean UI without bloatware. Very snappy response time.",
+    "rating": 4,
+    "title": "Pretty good",
+    "likeCount": 9
+  },
+  {
+    "id": "fk-d017",
+    "text": "Decent picture quality and sound. Remote could have had dedicated mute button.",
+    "rating": 4,
+    "title": "Good TV for the price",
+    "likeCount": 7
+  },
+  {
+    "id": "fk-d018",
+    "text": "Comfortable for long runs. Cushioning is responsive.",
+    "rating": 4,
+    "title": "Nice running shoes",
+    "likeCount": 16
+  },
+  {
+    "id": "fk-d019",
+    "text": "Colors are vibrant. Stand feels a bit flimsy but screen is solid.",
+    "rating": 4,
+    "title": "Worth the money",
+    "likeCount": 8
+  },
+  {
+    "id": "fk-d020",
+    "text": "Packaging was slightly crushed on one corner, but item inside was untouched.",
+    "rating": 4,
+    "title": "Safe delivery",
+    "likeCount": 4
+  },
+  {
+    "id": "fk-d021",
+    "text": "Average product. Does the job but nothing extraordinary.",
+    "rating": 3,
+    "title": "Just okay",
+    "likeCount": 13
+  },
+  {
+    "id": "fk-d022",
+    "text": "Screen is great, but heating issue starts after 20 minutes of camera usage.",
+    "rating": 3,
+    "title": "Mixed feeling",
+    "likeCount": 42
+  },
+  {
+    "id": "fk-d023",
+    "text": "Looks premium but battery drains faster than advertised. 4 hours on heavy use.",
+    "rating": 3,
+    "title": "Expected better battery",
+    "likeCount": 27
+  },
+  {
+    "id": "fk-d024",
+    "text": "Material is fine for casual wear, color faded slightly after second wash.",
+    "rating": 3,
+    "title": "Average quality",
+    "likeCount": 11
+  },
+  {
+    "id": "fk-d025",
+    "text": "Good specs on paper, but real world performance feels unoptimized.",
+    "rating": 3,
+    "title": "Decent but needs updates",
+    "likeCount": 17
+  },
+  {
+    "id": "fk-d026",
+    "text": "Sound is loud but lacks clarity at higher volumes. Bass is okay.",
+    "rating": 3,
+    "title": "Fair sound",
+    "likeCount": 5
+  },
+  {
+    "id": "fk-d027",
+    "text": "Delivery boy was polite, but product box was opened when received.",
+    "rating": 3,
+    "title": "Suspicious packaging",
+    "likeCount": 23
+  },
+  {
+    "id": "fk-d028",
+    "text": "Price is reasonable, but build durability feels cheap plastic.",
+    "rating": 3,
+    "title": "Could be better",
+    "likeCount": 14
+  },
+  {
+    "id": "fk-d029",
+    "text": "Installation was delayed by 3 days. Machine works fine once installed.",
+    "rating": 3,
+    "title": "Service delay",
+    "likeCount": 9
+  },
+  {
+    "id": "fk-d030",
+    "text": "Keyboard travel is nice, trackpad occasionally skips clicks.",
+    "rating": 3,
+    "title": "Acceptable laptop",
+    "likeCount": 12
+  },
+  {
+    "id": "fk-d031",
+    "text": "Poor battery backup. Needs to be charged twice every day.",
+    "rating": 2,
+    "title": "Disappointing",
+    "likeCount": 38
+  },
+  {
+    "id": "fk-d032",
+    "text": "Front camera is horrible. Grainy photos and washed out skin tones.",
+    "rating": 2,
+    "title": "Subpar camera",
+    "likeCount": 29
+  },
+  {
+    "id": "fk-d033",
+    "text": "Not worth the premium price tag. Competitors offer much more.",
+    "rating": 2,
+    "title": "Overpriced product",
+    "likeCount": 21
+  },
+  {
+    "id": "fk-d034",
+    "text": "Size chart is completely wrong. XL fits like M. Returning immediately.",
+    "rating": 2,
+    "title": "Faulty sizing",
+    "likeCount": 45
+  },
+  {
+    "id": "fk-d035",
+    "text": "Customer service refused to acknowledge the dead pixel on the screen.",
+    "rating": 2,
+    "title": "Terrible after-sales",
+    "likeCount": 53
+  },
+  {
+    "id": "fk-d036",
+    "text": "Stopped working after 3 weeks. Warranty process is a nightmare.",
+    "rating": 2,
+    "title": "Poor durability",
+    "likeCount": 67
+  },
+  {
+    "id": "fk-d037",
+    "text": "Plastic quality is fragile. Already developed a crack near the hinge.",
+    "rating": 2,
+    "title": "Cheap build",
+    "likeCount": 16
+  },
+  {
+    "id": "fk-d038",
+    "text": "Missing accessories from the box. Had to raise replacement request.",
+    "rating": 2,
+    "title": "Incomplete box",
+    "likeCount": 33
+  },
+  {
+    "id": "fk-d039",
+    "text": "Very noisy fan even on idle mode. Can not concentrate while working.",
+    "rating": 2,
+    "title": "Too noisy",
+    "likeCount": 19
+  },
+  {
+    "id": "fk-d040",
+    "text": "Bluetooth connection drops every 10 minutes. Very annoying.",
+    "rating": 2,
+    "title": "Connectivity problems",
+    "likeCount": 24
+  },
+  {
+    "id": "fk-d041",
+    "text": "Complete waste of money! Defective piece received and no return option available.",
+    "rating": 1,
+    "title": "Worst purchase ever",
+    "likeCount": 89
+  },
+  {
+    "id": "fk-d042",
+    "text": "Fake duplicate product! The logo is misprinted and barcodes do not scan.",
+    "rating": 1,
+    "title": "Fake / Duplicate alert!",
+    "likeCount": 112
+  },
+  {
+    "id": "fk-d043",
+    "text": "Broken display on arrival! Box was crushed like it was thrown from a truck.",
+    "rating": 1,
+    "title": "Damaged item received",
+    "likeCount": 76
+  },
+  {
+    "id": "fk-d044",
+    "text": "Device dead on arrival. Does not turn on or charge at all.",
+    "rating": 1,
+    "title": "Dead on Arrival",
+    "likeCount": 94
+  },
+  {
+    "id": "fk-d045",
+    "text": "Horrible experience. Seller sent used and refurbished item instead of new.",
+    "rating": 1,
+    "title": "Cheat seller",
+    "likeCount": 105
+  },
+  {
+    "id": "fk-d046",
+    "text": "Worst customer service. Kept transferring my call and never resolved issue.",
+    "rating": 1,
+    "title": "Pathetic service",
+    "likeCount": 58
+  },
+  {
+    "id": "fk-d047",
+    "text": "Severe heating issue. Reached 52 degrees during normal browsing. Fire hazard!",
+    "rating": 1,
+    "title": "Dangerous heating",
+    "likeCount": 81
+  },
+  {
+    "id": "fk-d048",
+    "text": "Do not buy! Stopped working on day 2. Refund request rejected without reason.",
+    "rating": 1,
+    "title": "Fraudulent experience",
+    "likeCount": 120
+  },
+  {
+    "id": "fk-d049",
+    "text": "Sound is completely distorted on right side. Zero quality check before dispatch.",
+    "rating": 1,
+    "title": "Horrible quality",
+    "likeCount": 37
+  },
+  {
+    "id": "fk-d050",
+    "text": "Wrong model delivered! Ordered 256GB and received 128GB.",
+    "rating": 1,
+    "title": "Wrong item delivered",
+    "likeCount": 63
+  },
+  {
+    "id": "fk-d051",
+    "text": "Great delivery, arrived in 50 broken pieces! What a masterclass in packaging.",
+    "rating": 1,
+    "title": "So helpful...",
+    "likeCount": 47
+  },
+  {
+    "id": "fk-d052",
+    "text": "Love how the battery drains 50% in 15 minutes. Truly next generation engineering!",
+    "rating": 1,
+    "title": "Pure genius",
+    "likeCount": 62
+  },
+  {
+    "id": "fk-d053",
+    "text": "Such original product! The plastic smell alone can knock you out. Bravo!",
+    "rating": 1,
+    "title": "Top quality lol",
+    "likeCount": 39
+  },
+  {
+    "id": "fk-d054",
+    "text": "Wonderful service! Took only 3 weeks and 10 calls to get no response.",
+    "rating": 1,
+    "title": "Amazing support",
+    "likeCount": 54
+  },
+  {
+    "id": "fk-d055",
+    "text": "Worst phone I ever owned, crashes daily, heats up and camera is useless.",
+    "rating": 5,
+    "title": "Terrible phone",
+    "likeCount": 18
+  },
+  {
+    "id": "fk-d056",
+    "text": "Do not buy this trash, broke on first day and seller refused replacement.",
+    "rating": 5,
+    "title": "Don not buy",
+    "likeCount": 22
+  },
+  {
+    "id": "fk-d057",
+    "text": "Very good phone, battery lasts 2 days, display is crystal clear, highly recommend!",
+    "rating": 1,
+    "title": "Good phone",
+    "likeCount": 15
+  },
+  {
+    "id": "fk-d058",
+    "text": "Superb packaging and original brand product. Value for money deal.",
+    "rating": 1,
+    "title": "Loved it",
+    "likeCount": 8
+  },
+  {
+    "id": "fk-d059",
+    "text": "बहुत ही शानदार फोन है! कैमरा क्वालिटी लाजवाब है और बैटरी पूरा दिन चलती है।",
+    "rating": 5,
+    "title": "अद्भुत उत्पाद",
+    "likeCount": 41
+  },
+  {
+    "id": "fk-d060",
+    "text": "पैसा वसूल डील! फ्लिपकार्ट की डिलीवरी भी बहुत तेज रही।",
+    "rating": 5,
+    "title": "शानदार",
+    "likeCount": 28
+  },
+  {
+    "id": "fk-d061",
+    "text": "डिस्प्ले बहुत ब्राइट है और गेमिंग में बिल्कुल लैग नहीं होता।",
+    "rating": 5,
+    "title": "मस्त परफॉर्मेंस",
+    "likeCount": 33
+  },
+  {
+    "id": "fk-d062",
+    "text": "पैकिंग बहुत अच्छी थी और सील पैक ओरिजिनल प्रोडक्ट मिला।",
+    "rating": 5,
+    "title": "सच्चा माल",
+    "likeCount": 19
+  },
+  {
+    "id": "fk-d063",
+    "text": "फोन अच्छा है लेकिन चार्जर बॉक्स में नहीं दिया गया।",
+    "rating": 4,
+    "title": "अच्छा फोन",
+    "likeCount": 17
+  },
+  {
+    "id": "fk-d064",
+    "text": "दिन में फोटो अच्छी आती है, रात में थोड़ा नॉइज़ रहता है। बाकी सब सही है।",
+    "rating": 4,
+    "title": "बढ़िया कैमरा",
+    "likeCount": 12
+  },
+  {
+    "id": "fk-d065",
+    "text": "औसत उत्पाद है। इस कीमत में और बेहतर हो सकता था।",
+    "rating": 3,
+    "title": "ठीक ठाक",
+    "likeCount": 10
+  },
+  {
+    "id": "fk-d066",
+    "text": "बैटरी बहुत जल्दी खत्म होती है। दिन में दो बार चार्ज करना पड़ता है।",
+    "rating": 2,
+    "title": "बैटरी कमजोर",
+    "likeCount": 24
+  },
+  {
+    "id": "fk-d067",
+    "text": "कैमरा बिल्कुल बकवास है। फोटो धुंधली आती है।",
+    "rating": 2,
+    "title": "निराशाजनक",
+    "likeCount": 31
+  },
+  {
+    "id": "fk-d068",
+    "text": "नकली प्रोडक्ट भेजा गया है। बारकोड भी काम नहीं कर रहा। पैसे बर्बाद!",
+    "rating": 1,
+    "title": "धोखाधड़ी",
+    "likeCount": 88
+  },
+  {
+    "id": "fk-d069",
+    "text": "टूटा हुआ डिब्बा मिला और स्क्रीन टूटी हुई थी। रिप्लेसमेंट भी रिजेक्ट कर दिया।",
+    "rating": 1,
+    "title": "घटिया अनुभव",
+    "likeCount": 79
+  },
+  {
+    "id": "fk-d070",
+    "text": "बिल्कुल घटिया क्वालिटी! दो दिन में बंद हो गया। कोई मत खरीदना।",
+    "rating": 1,
+    "title": "पैसे की बर्बादी",
+    "likeCount": 95
+  },
+  {
+    "id": "fk-d071",
+    "text": "Ekdum mast product hai! Battery backup solid hai aur look bhi premium hai.",
+    "rating": 5,
+    "title": "Paisa wasool",
+    "likeCount": 52
+  },
+  {
+    "id": "fk-d072",
+    "text": "Bhai kya camera hai! Portrait shots ekdum DSLR jaise aate hain.",
+    "rating": 5,
+    "title": "Superb camera",
+    "likeCount": 46
+  },
+  {
+    "id": "fk-d073",
+    "text": "Delivery ekdum time pe hui. Box packing bhi safe thi.",
+    "rating": 5,
+    "title": "Fast delivery",
+    "likeCount": 21
+  },
+  {
+    "id": "fk-d074",
+    "text": "Value for money deal hai. Is budget mein best option hai.",
+    "rating": 5,
+    "title": "Must buy yaar",
+    "likeCount": 35
+  },
+  {
+    "id": "fk-d075",
+    "text": "Original product mila hai, warranty register bhi ho gayi smoothly.",
+    "rating": 5,
+    "title": "Genuine product",
+    "likeCount": 29
+  },
+  {
+    "id": "fk-d076",
+    "text": "Phone achha hai but thoda heavy lagta hai haath mein.",
+    "rating": 4,
+    "title": "Accha hai but thoda bhari",
+    "likeCount": 14
+  },
+  {
+    "id": "fk-d077",
+    "text": "Gaming mein smooth chalta hai, battery thodi jaldi drain hoti hai bas.",
+    "rating": 4,
+    "title": "Good for gaming",
+    "likeCount": 18
+  },
+  {
+    "id": "fk-d078",
+    "text": "Sound loud hai aur clarity bhi sahi hai. Bass thoda aur hota toh maza aa jata.",
+    "rating": 4,
+    "title": "Sahi sound",
+    "likeCount": 11
+  },
+  {
+    "id": "fk-d079",
+    "text": "Average product hai yaar, jitna hype tha utna kuch khaas nahi laga.",
+    "rating": 3,
+    "title": "Thik thak hai",
+    "likeCount": 16
+  },
+  {
+    "id": "fk-d080",
+    "text": "Screen achhi hai par heating issue hota hai 15 min video record karne pe.",
+    "rating": 3,
+    "title": "Heating problem",
+    "likeCount": 37
+  },
+  {
+    "id": "fk-d081",
+    "text": "Size bilkul sahi nahi hai. L mangaaya tha aur S size jaisa fit ho raha hai.",
+    "rating": 2,
+    "title": "Size issue",
+    "likeCount": 28
+  },
+  {
+    "id": "fk-d082",
+    "text": "Battery backup bohot bekar hai. Subah charge karo dopahar tak khatam.",
+    "rating": 2,
+    "title": "Bekar battery",
+    "likeCount": 43
+  },
+  {
+    "id": "fk-d083",
+    "text": "Quality bohot cheap lagti hai plastic ki. Aisa lagta hai girte hi toot jayega.",
+    "rating": 2,
+    "title": "Cheap plastic",
+    "likeCount": 22
+  },
+  {
+    "id": "fk-d084",
+    "text": "Ekdum bakwas product! Duplicate maal bhej diya seller ne. Refund karo mera!",
+    "rating": 1,
+    "title": "Fake product alert",
+    "likeCount": 84
+  },
+  {
+    "id": "fk-d085",
+    "text": "Delivery boy ne package fenk ke diya, andar display toota hua nikla. Worst experience!",
+    "rating": 1,
+    "title": "Toota hua mila",
+    "likeCount": 91
+  },
+  {
+    "id": "fk-d086",
+    "text": "Yaar bilkul mat lena. 2 din mein sound kharab ho gayi aur customer care sunta nahi.",
+    "rating": 1,
+    "title": "Paisa doob gaya",
+    "likeCount": 77
+  },
+  {
+    "id": "fk-d087",
+    "text": "Total fraud! Box khali nikla sirf cardboard tha andar. Police complaint karunga.",
+    "rating": 1,
+    "title": "Khali box mila",
+    "likeCount": 130
+  },
+  {
+    "id": "fk-d088",
+    "text": "Wah kya service hai! 10 din late delivery aur item bhi damaged. Maza hi aa gaya!",
+    "rating": 1,
+    "title": "Great service sarcastic",
+    "likeCount": 50
+  },
+  {
+    "id": "fk-d089",
+    "text": "Very reliable camera! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 23
+  },
+  {
+    "id": "fk-d090",
+    "text": "delivery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 30
+  },
+  {
+    "id": "fk-d091",
+    "text": "Bhai iska quality ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 37
+  },
+  {
+    "id": "fk-d092",
+    "text": "Great price! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 4
+  },
+  {
+    "id": "fk-d093",
+    "text": "packaging बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 11
+  },
+  {
+    "id": "fk-d094",
+    "text": "Bhai iska service ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 18
+  },
+  {
+    "id": "fk-d095",
+    "text": "Top tier durability! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 25
+  },
+  {
+    "id": "fk-d096",
+    "text": "battery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 32
+  },
+  {
+    "id": "fk-d097",
+    "text": "Bhai iska camera ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 39
+  },
+  {
+    "id": "fk-d098",
+    "text": "Awesome delivery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 6
+  },
+  {
+    "id": "fk-d099",
+    "text": "quality बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 13
+  },
+  {
+    "id": "fk-d100",
+    "text": "Bhai iska price ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 20
+  },
+  {
+    "id": "fk-d101",
+    "text": "Smooth packaging! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 27
+  },
+  {
+    "id": "fk-d102",
+    "text": "service बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 34
+  },
+  {
+    "id": "fk-d103",
+    "text": "Bhai iska durability ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 1
+  },
+  {
+    "id": "fk-d104",
+    "text": "Impressive battery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 8
+  },
+  {
+    "id": "fk-d105",
+    "text": "camera बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 15
+  },
+  {
+    "id": "fk-d106",
+    "text": "Bhai iska delivery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 22
+  },
+  {
+    "id": "fk-d107",
+    "text": "Excellent quality! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 29
+  },
+  {
+    "id": "fk-d108",
+    "text": "price बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 36
+  },
+  {
+    "id": "fk-d109",
+    "text": "Bhai iska packaging ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 3
+  },
+  {
+    "id": "fk-d110",
+    "text": "Very reliable service! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 10
+  },
+  {
+    "id": "fk-d111",
+    "text": "durability बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 17
+  },
+  {
+    "id": "fk-d112",
+    "text": "Bhai iska battery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 24
+  },
+  {
+    "id": "fk-d113",
+    "text": "Great camera! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 31
+  },
+  {
+    "id": "fk-d114",
+    "text": "delivery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 38
+  },
+  {
+    "id": "fk-d115",
+    "text": "Bhai iska quality ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 5
+  },
+  {
+    "id": "fk-d116",
+    "text": "Top tier price! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 12
+  },
+  {
+    "id": "fk-d117",
+    "text": "packaging बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 19
+  },
+  {
+    "id": "fk-d118",
+    "text": "Bhai iska service ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 26
+  },
+  {
+    "id": "fk-d119",
+    "text": "Awesome durability! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 33
+  },
+  {
+    "id": "fk-d120",
+    "text": "battery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 0
+  },
+  {
+    "id": "fk-d121",
+    "text": "Bhai iska camera ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 7
+  },
+  {
+    "id": "fk-d122",
+    "text": "Smooth delivery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 14
+  },
+  {
+    "id": "fk-d123",
+    "text": "quality बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 21
+  },
+  {
+    "id": "fk-d124",
+    "text": "Bhai iska price ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 28
+  },
+  {
+    "id": "fk-d125",
+    "text": "Impressive packaging! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 35
+  },
+  {
+    "id": "fk-d126",
+    "text": "service बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 2
+  },
+  {
+    "id": "fk-d127",
+    "text": "Bhai iska durability ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 9
+  },
+  {
+    "id": "fk-d128",
+    "text": "Excellent battery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 16
+  },
+  {
+    "id": "fk-d129",
+    "text": "camera बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 23
+  },
+  {
+    "id": "fk-d130",
+    "text": "Bhai iska delivery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 30
+  },
+  {
+    "id": "fk-d131",
+    "text": "Very reliable quality! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 37
+  },
+  {
+    "id": "fk-d132",
+    "text": "price बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 4
+  },
+  {
+    "id": "fk-d133",
+    "text": "Bhai iska packaging ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 11
+  },
+  {
+    "id": "fk-d134",
+    "text": "Great service! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 18
+  },
+  {
+    "id": "fk-d135",
+    "text": "durability बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 25
+  },
+  {
+    "id": "fk-d136",
+    "text": "Bhai iska battery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 32
+  },
+  {
+    "id": "fk-d137",
+    "text": "Top tier camera! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 39
+  },
+  {
+    "id": "fk-d138",
+    "text": "delivery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 6
+  },
+  {
+    "id": "fk-d139",
+    "text": "Bhai iska quality ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 13
+  },
+  {
+    "id": "fk-d140",
+    "text": "Awesome price! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 20
+  },
+  {
+    "id": "fk-d141",
+    "text": "packaging बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 27
+  },
+  {
+    "id": "fk-d142",
+    "text": "Bhai iska service ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 34
+  },
+  {
+    "id": "fk-d143",
+    "text": "Smooth durability! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 1
+  },
+  {
+    "id": "fk-d144",
+    "text": "battery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 8
+  },
+  {
+    "id": "fk-d145",
+    "text": "Bhai iska camera ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 15
+  },
+  {
+    "id": "fk-d146",
+    "text": "Impressive delivery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 22
+  },
+  {
+    "id": "fk-d147",
+    "text": "quality बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 29
+  },
+  {
+    "id": "fk-d148",
+    "text": "Bhai iska price ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 36
+  },
+  {
+    "id": "fk-d149",
+    "text": "Excellent packaging! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 3
+  },
+  {
+    "id": "fk-d150",
+    "text": "service बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 10
+  },
+  {
+    "id": "fk-d151",
+    "text": "Bhai iska durability ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 17
+  },
+  {
+    "id": "fk-d152",
+    "text": "Very reliable battery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 24
+  },
+  {
+    "id": "fk-d153",
+    "text": "camera बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 31
+  },
+  {
+    "id": "fk-d154",
+    "text": "Bhai iska delivery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 38
+  },
+  {
+    "id": "fk-d155",
+    "text": "Great quality! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 5
+  },
+  {
+    "id": "fk-d156",
+    "text": "price बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 12
+  },
+  {
+    "id": "fk-d157",
+    "text": "Bhai iska packaging ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 19
+  },
+  {
+    "id": "fk-d158",
+    "text": "Top tier service! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 26
+  },
+  {
+    "id": "fk-d159",
+    "text": "durability बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 33
+  },
+  {
+    "id": "fk-d160",
+    "text": "Bhai iska battery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 0
+  },
+  {
+    "id": "fk-d161",
+    "text": "Awesome camera! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 7
+  },
+  {
+    "id": "fk-d162",
+    "text": "delivery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 14
+  },
+  {
+    "id": "fk-d163",
+    "text": "Bhai iska quality ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 21
+  },
+  {
+    "id": "fk-d164",
+    "text": "Smooth price! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 28
+  },
+  {
+    "id": "fk-d165",
+    "text": "packaging बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 35
+  },
+  {
+    "id": "fk-d166",
+    "text": "Bhai iska service ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 2
+  },
+  {
+    "id": "fk-d167",
+    "text": "Impressive durability! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 9
+  },
+  {
+    "id": "fk-d168",
+    "text": "battery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 16
+  },
+  {
+    "id": "fk-d169",
+    "text": "Bhai iska camera ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 23
+  },
+  {
+    "id": "fk-d170",
+    "text": "Excellent delivery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 30
+  },
+  {
+    "id": "fk-d171",
+    "text": "quality बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 37
+  },
+  {
+    "id": "fk-d172",
+    "text": "Bhai iska price ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 4
+  },
+  {
+    "id": "fk-d173",
+    "text": "Very reliable packaging! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 11
+  },
+  {
+    "id": "fk-d174",
+    "text": "service बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 18
+  },
+  {
+    "id": "fk-d175",
+    "text": "Bhai iska durability ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 25
+  },
+  {
+    "id": "fk-d176",
+    "text": "Great battery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 32
+  },
+  {
+    "id": "fk-d177",
+    "text": "camera बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 39
+  },
+  {
+    "id": "fk-d178",
+    "text": "Bhai iska delivery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 6
+  },
+  {
+    "id": "fk-d179",
+    "text": "Top tier quality! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 13
+  },
+  {
+    "id": "fk-d180",
+    "text": "price बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 20
+  },
+  {
+    "id": "fk-d181",
+    "text": "Bhai iska packaging ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 27
+  },
+  {
+    "id": "fk-d182",
+    "text": "Awesome service! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 34
+  },
+  {
+    "id": "fk-d183",
+    "text": "durability बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 1
+  },
+  {
+    "id": "fk-d184",
+    "text": "Bhai iska battery ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 8
+  },
+  {
+    "id": "fk-d185",
+    "text": "Smooth camera! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 15
+  },
+  {
+    "id": "fk-d186",
+    "text": "delivery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 22
+  },
+  {
+    "id": "fk-d187",
+    "text": "Bhai iska quality ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 29
+  },
+  {
+    "id": "fk-d188",
+    "text": "Impressive price! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 36
+  },
+  {
+    "id": "fk-d189",
+    "text": "packaging बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 3
+  },
+  {
+    "id": "fk-d190",
+    "text": "Bhai iska service ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 10
+  },
+  {
+    "id": "fk-d191",
+    "text": "Excellent durability! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 17
+  },
+  {
+    "id": "fk-d192",
+    "text": "battery बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 2,
+    "title": "खराब अनुभव",
+    "likeCount": 24
+  },
+  {
+    "id": "fk-d193",
+    "text": "Bhai iska camera ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 31
+  },
+  {
+    "id": "fk-d194",
+    "text": "Very reliable delivery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 38
+  },
+  {
+    "id": "fk-d195",
+    "text": "quality बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 3,
+    "title": "खराब अनुभव",
+    "likeCount": 5
+  },
+  {
+    "id": "fk-d196",
+    "text": "Bhai iska price ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 5,
+    "title": "Mast product",
+    "likeCount": 12
+  },
+  {
+    "id": "fk-d197",
+    "text": "Great packaging! Working flawlessly since past 2 weeks.",
+    "rating": 4,
+    "title": "Good product",
+    "likeCount": 19
+  },
+  {
+    "id": "fk-d198",
+    "text": "service बिल्कुल घटिया है। ग्राहक सेवा भी कोई मदद नहीं कर रही है।",
+    "rating": 1,
+    "title": "खराब अनुभव",
+    "likeCount": 26
+  },
+  {
+    "id": "fk-d199",
+    "text": "Bhai iska durability ekdum solid hai. Sach mein dil khush ho gaya!",
+    "rating": 4,
+    "title": "Mast product",
+    "likeCount": 33
+  },
+  {
+    "id": "fk-d200",
+    "text": "Top tier battery! Working flawlessly since past 2 weeks.",
+    "rating": 5,
+    "title": "Good product",
+    "likeCount": 0
+  }
+]
